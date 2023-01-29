@@ -7,7 +7,10 @@
     <string name="label_let_s_login_first">Let\'s Login first</string>
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
+    <string name="hint_name">Name</string>
     <string name="label_login">Login</string>
     <string name="error_password_at_least_characters">Password should be at least 6 characters</string>
     <string name="error_email_format_invalid">Email format is invalid</string>
+    <string name="label_register_new_account">Register new account</string>
+    <string name="label_or_click_to_login">or click to login</string>
 </resources>
