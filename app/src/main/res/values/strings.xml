@@ -4,7 +4,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="desc_app_logo">App logo</string>
     <string name="label_or_click_to_register">or click to register</string>
-    <string name="label_let_s_login_first">Let\'s Login first</string>
+    <string name="label_let_s_login_first">Let\'s login first</string>
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
     <string name="hint_name">Name</string>
@@ -13,4 +13,5 @@
     <string name="error_email_format_invalid">Email format is invalid</string>
     <string name="label_register_new_account">Register new account</string>
     <string name="label_or_click_to_login">or click to login</string>
+    <string name="label_register">Register</string>
 </resources>

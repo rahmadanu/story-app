@@ -18,6 +18,7 @@ class HostActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setUpNavController()
+        supportActionBar?.hide()
     }
 
     private fun setUpNavController() {

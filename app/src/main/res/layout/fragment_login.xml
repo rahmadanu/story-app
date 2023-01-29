@@ -31,16 +31,16 @@
 
     <TextView
         android:id="@+id/tv_label_register"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="@string/label_or_click_to_register"
         android:textColor="@color/primaryDarkColor"
+        android:background="?attr/selectableItemBackground"
         android:clickable="true"
         android:focusable="true"
         app:layout_constraintStart_toStartOf="@id/tv_label_log_in"
-        app:layout_constraintTop_toBottomOf="@id/tv_label_log_in"
-        app:layout_constraintEnd_toEndOf="@id/tv_label_log_in" />
+        app:layout_constraintTop_toBottomOf="@id/tv_label_log_in"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_email"

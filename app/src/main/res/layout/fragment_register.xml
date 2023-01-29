@@ -31,16 +31,16 @@
 
     <TextView
         android:id="@+id/tv_label_log_in"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="@string/label_or_click_to_login"
         android:textColor="@color/primaryDarkColor"
+        android:background="?attr/selectableItemBackground"
         android:clickable="true"
         android:focusable="true"
         app:layout_constraintStart_toStartOf="@id/tv_label_register"
-        app:layout_constraintTop_toBottomOf="@id/tv_label_register"
-        app:layout_constraintEnd_toEndOf="@id/tv_label_register" />
+        app:layout_constraintTop_toBottomOf="@id/tv_label_register"/>
 
 
     <com.google.android.material.textfield.TextInputLayout
@@ -72,7 +72,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         app:boxCornerRadiusTopStart="16dp"
         app:boxCornerRadiusTopEnd="16dp"
         app:boxCornerRadiusBottomStart="16dp"
@@ -118,11 +118,11 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_sign_in"
+        android:id="@+id/btn_register"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="40dp"
-        android:text="@string/label_login"
+        android:text="@string/label_register"
         app:cornerRadius="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/til_password"
