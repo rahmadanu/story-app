@@ -5,9 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.dandev.storyapp.R
+import com.dandev.storyapp.data.remote.model.auth.RegisterRequest
 import com.dandev.storyapp.databinding.FragmentRegisterBinding
+import com.dandev.storyapp.util.wrapper.Resource
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -15,6 +20,8 @@ class RegisterFragment : Fragment() {
 
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
+
+    private val viewModel: RegisterViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,12 +36,75 @@ class RegisterFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setOnClickListener()
+        observeRegisterResponse()
+    }
+
+    private fun observeRegisterResponse() {
+        viewModel.registerResponse.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Loading -> {
+                    binding.pbLoading.isVisible = true
+                }
+                is Resource.Error -> {
+                    binding.pbLoading.isVisible = false
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                }
+                is Resource.Success -> {
+                    binding.pbLoading.isVisible = false
+                    findNavController().navigateUp()
+                    Toast.makeText(requireContext(), it.data?.message, Toast.LENGTH_SHORT).show()
+                }
+                else -> {}
+            }
+        }
     }
 
     private fun setOnClickListener() {
         binding.apply {
             tvLabelLogIn.setOnClickListener { findNavController().navigateUp() }
+            btnRegister.setOnClickListener {
+                if (validateInput()) {
+                    registerUser(parseFormIntoEntity())
+                }
+            }
         }
+    }
+
+    private fun validateInput(): Boolean {
+        var isValid = true
+
+        binding.apply {
+            val name = etName.text.toString().trim()
+            val email = etEmail.text.toString().trim()
+            val password = etPassword.text.toString().trim()
+
+            if (name.isEmpty()) {
+                isValid = false
+                tilName.error = getString(R.string.error_empty_name)
+                etName.requestFocus()
+            } else if (email.isEmpty()) {
+                isValid = false
+                tilEmail.error = getString(R.string.error_empty_email)
+                etEmail.requestFocus()
+            } else if (password.isEmpty()) {
+                isValid = false
+                tilPassword.error = getString(R.string.error_empty_password)
+                etPassword.requestFocus()
+            }
+        }
+        return isValid
+    }
+
+    private fun registerUser(registerRequest: RegisterRequest) {
+        viewModel.registerUser(registerRequest)
+    }
+
+    private fun parseFormIntoEntity(): RegisterRequest {
+        return RegisterRequest(
+            name = binding.etName.text.toString().trim(),
+            email = binding.etEmail.text.toString().trim(),
+            password = binding.etPassword.text.toString().trim(),
+        )
     }
 
     override fun onDestroyView() {

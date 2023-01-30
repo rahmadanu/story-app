@@ -21,6 +21,7 @@ class LoginViewModel @Inject constructor(
     val loginResponse: LiveData<Resource<LoginResponse>> = _loginResponse
 
     fun loginUser(loginRequest: LoginRequest) {
+        _loginResponse.postValue(Resource.Loading())
         viewModelScope.launch(Dispatchers.IO) {
             val response = loginUserUseCase(loginRequest)
             viewModelScope.launch(Dispatchers.Main) {

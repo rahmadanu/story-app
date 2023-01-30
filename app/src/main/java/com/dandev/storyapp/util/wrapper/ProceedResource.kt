@@ -13,7 +13,7 @@ suspend fun <T> proceed(coroutines: suspend () -> T): Resource<T> {
             is HttpException -> {
                 val errorMessageResponseType = object : TypeToken<ErrorResponse>() {}.type
                 val error: ErrorResponse = Gson().fromJson(e.response()?.errorBody()?.charStream(), errorMessageResponseType)
-                Resource.Error(e, "${error.status}: ${error.message}")
+                Resource.Error(e, "${error.message}")
             } else -> {
                 Resource.Error(e, e.message)
             }

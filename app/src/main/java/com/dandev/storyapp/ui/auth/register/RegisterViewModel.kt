@@ -21,6 +21,7 @@ class RegisterViewModel @Inject constructor(
     val registerResponse: LiveData<Resource<RegisterResponse>> get() = _registerResponse
 
     fun registerUser(registerRequest: RegisterRequest) {
+        _registerResponse.postValue(Resource.Loading())
         viewModelScope.launch(Dispatchers.IO) {
             val response = registerUserUseCase(registerRequest)
             viewModelScope.launch(Dispatchers.Main) {

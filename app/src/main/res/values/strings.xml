@@ -14,4 +14,7 @@
     <string name="label_register_new_account">Register new account</string>
     <string name="label_or_click_to_login">or click to login</string>
     <string name="label_register">Register</string>
+    <string name="error_empty_name">Name must not be empty</string>
+    <string name="error_empty_email">Email must not be empty</string>
+    <string name="error_empty_password">Password must not be empty</string>
 </resources>
