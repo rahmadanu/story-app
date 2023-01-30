@@ -1,4 +1,4 @@
-package com.dandev.storyapp.data.network.service
+package com.dandev.storyapp.data.remote.service
 
 object ApiEndPoints {
     // Auth
