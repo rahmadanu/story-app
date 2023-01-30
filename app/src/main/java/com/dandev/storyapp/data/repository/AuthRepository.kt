@@ -5,13 +5,14 @@ import com.dandev.storyapp.data.remote.model.auth.LoginRequest
 import com.dandev.storyapp.data.remote.model.auth.LoginResponse
 import com.dandev.storyapp.data.remote.model.auth.RegisterRequest
 import com.dandev.storyapp.data.remote.model.auth.RegisterResponse
+import javax.inject.Inject
 
 interface AuthRepository {
     fun registerUser(registerRequest: RegisterRequest): RegisterResponse
     fun loginUser(loginRequest: LoginRequest): LoginResponse
 }
 
-class AuthRepositoryImpl (private val dataSource: AuthRemoteDataSource): AuthRepository {
+class AuthRepositoryImpl @Inject constructor(private val dataSource: AuthRemoteDataSource): AuthRepository {
     override fun registerUser(registerRequest: RegisterRequest): RegisterResponse {
         return dataSource.registerUser(registerRequest)
     }

@@ -6,7 +6,9 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.dandev.storyapp.R
 import com.dandev.storyapp.databinding.ActivityHostBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HostActivity : AppCompatActivity() {
 
     private var _binding: ActivityHostBinding? = null
