@@ -1,5 +1,6 @@
 package com.dandev.storyapp.data.repository
 
+import com.dandev.storyapp.data.local.data_source.AuthLocalDataSource
 import com.dandev.storyapp.data.remote.data_source.AuthRemoteDataSource
 import com.dandev.storyapp.data.remote.model.auth.LoginRequest
 import com.dandev.storyapp.data.remote.model.auth.LoginResponse
@@ -12,18 +13,30 @@ import javax.inject.Inject
 interface AuthRepository {
     suspend fun registerUser(registerRequest: RegisterRequest): Resource<RegisterResponse>
     suspend fun loginUser(loginRequest: LoginRequest): Resource<LoginResponse>
+    suspend fun logoutUser()
 }
 
-class AuthRepositoryImpl @Inject constructor(private val dataSource: AuthRemoteDataSource): AuthRepository {
+class AuthRepositoryImpl @Inject constructor(
+    private val remoteDataSource: AuthRemoteDataSource,
+    private val localDataSource: AuthLocalDataSource,
+): AuthRepository {
     override suspend fun registerUser(registerRequest: RegisterRequest): Resource<RegisterResponse> {
         return proceed {
-            dataSource.registerUser(registerRequest)
+            remoteDataSource.registerUser(registerRequest)
         }
     }
 
     override suspend fun loginUser(loginRequest: LoginRequest): Resource<LoginResponse> {
-        return proceed {
-            dataSource.loginUser(loginRequest)
+        val response = proceed {
+            remoteDataSource.loginUser(loginRequest)
         }
+        response.payload?.loginResult?.token?.let {
+            localDataSource.setUserToken(it)
+        }
+        return response
+    }
+
+    override suspend fun logoutUser() {
+        localDataSource.setUserToken("")
     }
 }
