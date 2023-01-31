@@ -51,7 +51,7 @@ class LoginFragment : Fragment() {
                 }
                 is Resource.Success -> {
                     binding.pbLoading.isVisible = false
-                    //navigate to list story
+                    findNavController().navigate(R.id.action_loginFragment_to_listStoryFragment)
                 }
                 else -> {}
             }
