@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.dandev.storyapp.data.remote.model.story.Story
 import com.dandev.storyapp.databinding.ItemStoryBinding
 
@@ -46,6 +48,16 @@ class ListStoryAdapter(private val itemClick: (Story) -> Unit) :
 
         fun bindView(item: Story) {
             with(item) {
+                with(binding) {
+                    tvName.text = name
+                    tvDescription.text = description
+
+                    Glide.with(itemView)
+                        .load(photoUrl)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        //.placeholder()
+                        .into(ivPicture)
+                }
                 itemView.setOnClickListener { itemClick(this) }
             }
 

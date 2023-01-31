@@ -48,10 +48,12 @@
             tools:text="Lorem ipsum akwowaokawowkwoakwakwoaowaowkawkawo"/>
 
         <ImageView
+            android:id="@+id/iv_picture"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_marginTop="12dp"
             android:scaleType="centerCrop"
+            android:contentDescription="@string/desc_picture_to_be_posted"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_profile_picture"
             tools:src="@tools:sample/backgrounds/scenic" />
