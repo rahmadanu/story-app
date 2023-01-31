@@ -4,6 +4,7 @@ import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.dandev.storyapp.BuildConfig
 import com.dandev.storyapp.data.remote.service.AuthApiService
+import com.dandev.storyapp.data.remote.service.StoryApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -58,6 +59,12 @@ object ApiModule {
     @Singleton
     fun provideAuthApiService(retrofit: Retrofit): AuthApiService {
         return retrofit.create(AuthApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideStoryApiService(retrofit: Retrofit): StoryApiService {
+        return retrofit.create(StoryApiService::class.java)
     }
 
 }
