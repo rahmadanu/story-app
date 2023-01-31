@@ -17,4 +17,5 @@
     <string name="error_empty_name">Name must not be empty</string>
     <string name="error_empty_email">Email must not be empty</string>
     <string name="error_empty_password">Password must not be empty</string>
+    <string name="desc_user_profile_picture">User profile picture</string>
 </resources>
