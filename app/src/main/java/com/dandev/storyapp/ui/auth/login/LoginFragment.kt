@@ -5,9 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.dandev.storyapp.R
+import com.dandev.storyapp.data.remote.model.auth.LoginRequest
 import com.dandev.storyapp.databinding.FragmentLoginBinding
+import com.dandev.storyapp.util.wrapper.Resource
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -15,6 +20,8 @@ class LoginFragment : Fragment() {
 
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
+
+    private val viewModel: LoginViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,6 +36,26 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setOnClickListener()
+        observeLoginResponse()
+    }
+
+    private fun observeLoginResponse() {
+        viewModel.loginResponse.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Loading -> {
+                    binding.pbLoading.isVisible = true
+                }
+                is Resource.Error -> {
+                    binding.pbLoading.isVisible = false
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                }
+                is Resource.Success -> {
+                    binding.pbLoading.isVisible = false
+                    //navigate to list story
+                }
+                else -> {}
+            }
+        }
     }
 
     private fun setOnClickListener() {
@@ -36,7 +63,43 @@ class LoginFragment : Fragment() {
             tvLabelRegister.setOnClickListener {
                 findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
             }
+            btnLogin.setOnClickListener {
+                if (validateInput()) {
+                    loginUser(parseFormIntoEntity())
+                }
+            }
         }
+    }
+
+    private fun validateInput(): Boolean {
+        var isValid = true
+
+        binding.apply {
+            val email = binding.etEmail.text.toString().trim()
+            val password = binding.etPassword.text.toString().trim()
+
+            if (email.isEmpty()) {
+                isValid = false
+                tilEmail.error = getString(R.string.error_empty_email)
+                etEmail.requestFocus()
+            } else if (password.isEmpty()) {
+                isValid = false
+                tilPassword.error = getString(R.string.error_empty_password)
+                etPassword.requestFocus()
+            }
+        }
+        return isValid
+    }
+
+    private fun loginUser(loginRequest: LoginRequest) {
+        viewModel.loginUser(loginRequest)
+    }
+
+    private fun parseFormIntoEntity(): LoginRequest {
+        return LoginRequest(
+            email = binding.etEmail.text.toString().trim(),
+            password = binding.etPassword.text.toString().trim(),
+        )
     }
 
     override fun onDestroyView() {
