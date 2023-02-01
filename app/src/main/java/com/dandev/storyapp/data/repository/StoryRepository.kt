@@ -10,20 +10,15 @@ import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 interface StoryRepository {
-    suspend fun getAllStories(): Resource<StoriesResponse>
+    suspend fun getAllStories(token: String): Resource<StoriesResponse>
 }
 
 class StoryRepositoryImpl @Inject constructor(
     private val storyRemoteDataSource: StoryRemoteDataSource,
-    private val authLocalDataSource: AuthLocalDataSource,
 ): StoryRepository {
-    override suspend fun getAllStories(): Resource<StoriesResponse> {
-        val token = authLocalDataSource.getUserToken().first()
-        Log.d("token", token)
-        //consider do this in use case
-        val response = proceed {
+    override suspend fun getAllStories(token: String): Resource<StoriesResponse> {
+        return proceed {
             storyRemoteDataSource.getAllStories("Bearer $token")
         }
-        return response
     }
 }

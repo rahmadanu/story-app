@@ -8,12 +8,14 @@ import com.dandev.storyapp.data.remote.model.auth.RegisterRequest
 import com.dandev.storyapp.data.remote.model.auth.RegisterResponse
 import com.dandev.storyapp.util.wrapper.Resource
 import com.dandev.storyapp.util.wrapper.proceed
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 interface AuthRepository {
     suspend fun registerUser(registerRequest: RegisterRequest): Resource<RegisterResponse>
     suspend fun loginUser(loginRequest: LoginRequest): Resource<LoginResponse>
     suspend fun logoutUser()
+    fun getUserToken(): Flow<String>
 }
 
 class AuthRepositoryImpl @Inject constructor(
@@ -38,5 +40,9 @@ class AuthRepositoryImpl @Inject constructor(
 
     override suspend fun logoutUser() {
         localDataSource.setUserToken("")
+    }
+
+    override fun getUserToken(): Flow<String> {
+        return localDataSource.getUserToken()
     }
 }
