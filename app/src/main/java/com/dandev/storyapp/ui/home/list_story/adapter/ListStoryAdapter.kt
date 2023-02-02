@@ -49,8 +49,8 @@ class ListStoryAdapter(private val itemClick: (Story) -> Unit) :
         fun bindView(item: Story) {
             with(item) {
                 with(binding) {
-                    tvName.text = name
-                    tvDescription.text = description
+                    tvItemName.text = name
+                    tvItemDescription.text = description
 
                     Glide.with(itemView)
                         .load(photoUrl)

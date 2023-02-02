@@ -60,7 +60,7 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <com.dandev.storyapp.util.custom_view.CustomTextInputEditText
-            android:id="@+id/et_name"
+            android:id="@+id/ed_register_name"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="@string/hint_name"
@@ -85,7 +85,7 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <com.dandev.storyapp.util.custom_view.CustomTextInputEditText
-            android:id="@+id/et_email"
+            android:id="@+id/ed_register_email"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="@string/hint_email"
@@ -112,7 +112,7 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <com.dandev.storyapp.util.custom_view.CustomTextInputEditText
-            android:id="@+id/et_password"
+            android:id="@+id/ed_register_password"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="@string/hint_password"
