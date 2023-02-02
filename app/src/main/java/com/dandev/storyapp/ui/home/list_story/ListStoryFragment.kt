@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dandev.storyapp.R
 import com.dandev.storyapp.databinding.FragmentListStoryBinding
@@ -25,6 +26,8 @@ class ListStoryFragment : Fragment() {
 
     private val adapter: ListStoryAdapter by lazy {
         ListStoryAdapter{
+            val action = ListStoryFragmentDirections.actionListStoryFragmentToDetailStoryFragment(it)
+            findNavController().navigate(action)
         }
     }
 

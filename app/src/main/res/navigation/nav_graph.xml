@@ -28,5 +28,18 @@
         android:id="@+id/listStoryFragment"
         android:name="com.dandev.storyapp.ui.home.list_story.ListStoryFragment"
         android:label="fragment_list_story"
-        tools:layout="@layout/fragment_list_story" />
+        tools:layout="@layout/fragment_list_story" >
+        <action
+            android:id="@+id/action_listStoryFragment_to_detailStoryFragment"
+            app:destination="@id/detailStoryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailStoryFragment"
+        android:name="com.dandev.storyapp.ui.home.detail_story.DetailStoryFragment"
+        android:label="fragment_detail_story"
+        tools:layout="@layout/fragment_detail_story" >
+        <argument
+            android:name="detailStory"
+            app:argType="com.dandev.storyapp.data.remote.model.story.Story" />
+    </fragment>
 </navigation>

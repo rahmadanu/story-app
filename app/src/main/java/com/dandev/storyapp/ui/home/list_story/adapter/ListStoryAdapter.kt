@@ -56,7 +56,7 @@ class ListStoryAdapter(private val itemClick: (Story) -> Unit) :
                         .load(photoUrl)
                         .transition(DrawableTransitionOptions.withCrossFade())
                         //.placeholder()
-                        .into(ivPicture)
+                        .into(ivItemPhoto)
                 }
                 itemView.setOnClickListener { itemClick(this) }
             }
