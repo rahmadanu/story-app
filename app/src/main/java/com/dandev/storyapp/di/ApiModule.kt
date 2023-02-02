@@ -3,12 +3,15 @@ package com.dandev.storyapp.di
 import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.dandev.storyapp.BuildConfig
+import com.dandev.storyapp.data.local.preference.AuthDataStoreManager
 import com.dandev.storyapp.data.remote.service.AuthApiService
+import com.dandev.storyapp.data.remote.service.StoryApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.flow.first
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -26,6 +29,12 @@ object ApiModule {
 
     @Provides
     @Singleton
+    fun provideAuthDataStoreManager(@ApplicationContext context: Context): AuthDataStoreManager {
+        return AuthDataStoreManager(context)
+    }
+
+    @Provides
+    @Singleton
     fun provideOkHttpClient(
         chuckerInterceptor: ChuckerInterceptor,
     ): OkHttpClient {
@@ -37,7 +46,7 @@ object ApiModule {
             .followSslRedirects(true)
             .addInterceptor { chain ->
                 val newRequest = chain.request().newBuilder()
-                    .addHeader("Authorization", "Bearer $accessToken")
+                    .addHeader("Authorization", "Bearer ${authDataStoreManager.getUserToken().first()}")
                     .build()
                 chain.proceed(newRequest)
             }*/
@@ -58,6 +67,12 @@ object ApiModule {
     @Singleton
     fun provideAuthApiService(retrofit: Retrofit): AuthApiService {
         return retrofit.create(AuthApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideStoryApiService(retrofit: Retrofit): StoryApiService {
+        return retrofit.create(StoryApiService::class.java)
     }
 
 }

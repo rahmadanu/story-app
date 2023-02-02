@@ -74,22 +74,22 @@ class RegisterFragment : Fragment() {
         var isValid = true
 
         binding.apply {
-            val name = etName.text.toString().trim()
-            val email = etEmail.text.toString().trim()
-            val password = etPassword.text.toString().trim()
+            val name = edRegisterName.text.toString().trim()
+            val email = edRegisterEmail.text.toString().trim()
+            val password = edRegisterPassword.text.toString().trim()
 
             if (name.isEmpty()) {
                 isValid = false
                 tilName.error = getString(R.string.error_empty_name)
-                etName.requestFocus()
+                edRegisterName.requestFocus()
             } else if (email.isEmpty()) {
                 isValid = false
                 tilEmail.error = getString(R.string.error_empty_email)
-                etEmail.requestFocus()
+                edRegisterEmail.requestFocus()
             } else if (password.isEmpty()) {
                 isValid = false
                 tilPassword.error = getString(R.string.error_empty_password)
-                etPassword.requestFocus()
+                edRegisterPassword.requestFocus()
             }
         }
         return isValid
@@ -101,9 +101,9 @@ class RegisterFragment : Fragment() {
 
     private fun parseFormIntoEntity(): RegisterRequest {
         return RegisterRequest(
-            name = binding.etName.text.toString().trim(),
-            email = binding.etEmail.text.toString().trim(),
-            password = binding.etPassword.text.toString().trim(),
+            name = binding.edRegisterName.text.toString().trim(),
+            email = binding.edRegisterEmail.text.toString().trim(),
+            password = binding.edRegisterPassword.text.toString().trim(),
         )
     }
 

@@ -17,4 +17,11 @@
     <string name="error_empty_name">Name must not be empty</string>
     <string name="error_empty_email">Email must not be empty</string>
     <string name="error_empty_password">Password must not be empty</string>
+    <string name="desc_user_profile_picture">User profile picture</string>
+    <string name="label_logout">Logout</string>
+    <string name="desc_picture_to_be_posted">Picture to be posted</string>
+    <string name="label_description">Description</string>
+    <string name="label_uploaded">Uploaded</string>
+    <string name="label_name">Name</string>
+    <string name="label_posted_by">Posted by</string>
 </resources>

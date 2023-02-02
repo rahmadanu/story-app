@@ -51,7 +51,7 @@ class LoginFragment : Fragment() {
                 }
                 is Resource.Success -> {
                     binding.pbLoading.isVisible = false
-                    //navigate to list story
+                    findNavController().navigate(R.id.action_loginFragment_to_listStoryFragment)
                 }
                 else -> {}
             }
@@ -75,17 +75,17 @@ class LoginFragment : Fragment() {
         var isValid = true
 
         binding.apply {
-            val email = binding.etEmail.text.toString().trim()
-            val password = binding.etPassword.text.toString().trim()
+            val email = binding.edLoginEmail.text.toString().trim()
+            val password = binding.edLoginPassword.text.toString().trim()
 
             if (email.isEmpty()) {
                 isValid = false
                 tilEmail.error = getString(R.string.error_empty_email)
-                etEmail.requestFocus()
+                edLoginEmail.requestFocus()
             } else if (password.isEmpty()) {
                 isValid = false
                 tilPassword.error = getString(R.string.error_empty_password)
-                etPassword.requestFocus()
+                edLoginPassword.requestFocus()
             }
         }
         return isValid
@@ -97,8 +97,8 @@ class LoginFragment : Fragment() {
 
     private fun parseFormIntoEntity(): LoginRequest {
         return LoginRequest(
-            email = binding.etEmail.text.toString().trim(),
-            password = binding.etPassword.text.toString().trim(),
+            email = binding.edLoginEmail.text.toString().trim(),
+            password = binding.edLoginPassword.text.toString().trim(),
         )
     }
 
