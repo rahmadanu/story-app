@@ -48,7 +48,7 @@
             tools:text="Lorem ipsum akwowaokawowkwoakwakwoaowaowkawkawo"/>
 
         <ImageView
-            android:id="@+id/iv_picture"
+            android:id="@+id/iv_detail_photo"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_marginTop="12dp"
