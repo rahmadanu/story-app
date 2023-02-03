@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/splashFragment">
 
     <fragment
         android:id="@+id/loginFragment"
@@ -32,6 +32,11 @@
         <action
             android:id="@+id/action_listStoryFragment_to_detailStoryFragment"
             app:destination="@id/detailStoryFragment" />
+        <action
+            android:id="@+id/action_listStoryFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true"/>
     </fragment>
     <fragment
         android:id="@+id/detailStoryFragment"
@@ -41,5 +46,21 @@
         <argument
             android:name="detailStory"
             app:argType="com.dandev.storyapp.data.remote.model.story.Story" />
+    </fragment>
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.dandev.storyapp.ui.splash.SplashFragment"
+        android:label="fragment_splash"
+        tools:layout="@layout/fragment_splash" >
+        <action
+            android:id="@+id/action_splashFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_splashFragment_to_listStoryFragment"
+            app:destination="@id/listStoryFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true"/>
     </fragment>
 </navigation>

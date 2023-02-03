@@ -43,9 +43,19 @@ class ListStoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setOnClickListener()
         initList()
         getAllStories()
         observeListStory()
+        observeLogoutUser()
+    }
+
+    private fun setOnClickListener() {
+        binding.apply {
+            tvLogout.setOnClickListener {
+                viewModel.logoutUser()
+            }
+        }
     }
 
     private fun observeListStory() {
@@ -69,6 +79,20 @@ class ListStoryFragment : Fragment() {
 
     private fun getAllStories() {
         viewModel.getAllStories()
+    }
+
+    private fun observeLogoutUser() {
+        viewModel.logoutResponse.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Error -> {
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                }
+                is Resource.Success -> {
+                    findNavController().navigate(R.id.action_listStoryFragment_to_loginFragment)
+                }
+                else -> {}
+            }
+        }
     }
 
     private fun initList() {
