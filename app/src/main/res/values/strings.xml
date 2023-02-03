@@ -24,4 +24,9 @@
     <string name="label_uploaded">Uploaded</string>
     <string name="label_name">Name</string>
     <string name="label_posted_by">Posted by</string>
+    <string name="desc_add_story_image_placeholder">Add story image placeholder</string>
+    <string name="label_camera">Camera</string>
+    <string name="label_gallery">Gallery</string>
+    <string name="hint_write_a_description">Write a description</string>
+    <string name="label_add_story">Add Story</string>
 </resources>
