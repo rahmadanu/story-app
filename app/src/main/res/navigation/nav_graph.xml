@@ -37,6 +37,9 @@
             app:destination="@id/loginFragment"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_listStoryFragment_to_addStoryFragment"
+            app:destination="@id/addStoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailStoryFragment"
@@ -63,4 +66,9 @@
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true"/>
     </fragment>
+    <fragment
+        android:id="@+id/addStoryFragment"
+        android:name="com.dandev.storyapp.ui.home.add_story.AddStoryFragment"
+        android:label="fragment_add_story"
+        tools:layout="@layout/fragment_add_story" />
 </navigation>

@@ -55,6 +55,9 @@ class ListStoryFragment : Fragment() {
             tvLogout.setOnClickListener {
                 viewModel.logoutUser()
             }
+            fabAddStory.setOnClickListener {
+                findNavController().navigate(R.id.action_listStoryFragment_to_addStoryFragment)
+            }
         }
     }
 
