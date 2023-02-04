@@ -1,10 +1,9 @@
 package com.dandev.storyapp.ui.host
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupActionBarWithNavController
-import com.dandev.storyapp.R
 import com.dandev.storyapp.databinding.ActivityHostBinding
 import dagger.hilt.android.AndroidEntryPoint
 
