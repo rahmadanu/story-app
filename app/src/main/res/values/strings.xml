@@ -33,4 +33,6 @@
     <string name="title_choose_a_picture">Choose a picture</string>
     <string name="desc_new_story_description">This is a story photo description</string>
     <string name="message_add_story_success">Add new story success</string>
+    <string name="error_empty_description">Description must not be empty</string>
+    <string name="message_upload_photo_required">Upload photo required</string>
 </resources>

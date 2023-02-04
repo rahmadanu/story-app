@@ -82,10 +82,30 @@ class AddStoryFragment : Fragment() {
             btnAddCamera.setOnClickListener { startCamera() }
             btnAddGallery.setOnClickListener { startGallery() }
             btnAddStory.setOnClickListener {
-                val description = binding.edAddDescription.text.toString().trim()
-                getFile?.let { photoFile -> addNewStory(photoFile, description) }
+                if (validateInput()) {
+                    val description = binding.edAddDescription.text.toString().trim()
+                    getFile?.let { photoFile -> addNewStory(photoFile, description) }   
+                }
             }
         }
+    }
+
+    private fun validateInput(): Boolean {
+        var isValid = true
+
+        binding.apply {
+            val description = edAddDescription.text.toString().trim()
+
+            if (getFile == null) {
+                isValid = false
+                Toast.makeText(requireContext(), getString(R.string.message_upload_photo_required), Toast.LENGTH_SHORT).show()
+            } else if (description.isEmpty()) {
+                isValid = false
+                edAddDescription.error = getString(R.string.error_empty_description)
+                edAddDescription.requestFocus()
+            }
+        }
+        return isValid
     }
 
     private fun addNewStory(photo: File, description: String) {
