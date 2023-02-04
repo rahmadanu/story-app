@@ -41,7 +41,7 @@ class StoryRepositoryImpl @Inject constructor(
         val descriptionRequestBody = description.toRequestBody("text/plain".toMediaType())
 
         val imageMultipart = MultipartBody.Part.createFormData(
-            "storyPhoto",
+            "photo",
             photo.name,
             photoRequestBody
         )

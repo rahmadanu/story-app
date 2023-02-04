@@ -31,4 +31,6 @@
     <string name="label_add_story">Add Story</string>
     <string name="package_authority">com.dandev.storyapp</string>
     <string name="title_choose_a_picture">Choose a picture</string>
+    <string name="desc_new_story_description">This is a story photo description</string>
+    <string name="message_add_story_success">Add new story success</string>
 </resources>

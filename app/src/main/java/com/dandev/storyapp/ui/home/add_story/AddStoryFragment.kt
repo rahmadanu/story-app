@@ -7,22 +7,32 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
+import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.dandev.storyapp.R
 import com.dandev.storyapp.databinding.FragmentAddStoryBinding
 import com.dandev.storyapp.util.image.createCustomTempFile
+import com.dandev.storyapp.util.image.reduceFileImage
 import com.dandev.storyapp.util.image.uriToFile
+import com.dandev.storyapp.util.wrapper.Resource
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 
+@AndroidEntryPoint
 class AddStoryFragment : Fragment() {
 
     private var _binding: FragmentAddStoryBinding? = null
     private val binding get() = _binding!!
+
+    private val viewModel: AddStoryViewModel by viewModels()
 
     private var getFile: File? = null
     private lateinit var currentPhotoPath: String
@@ -64,12 +74,42 @@ class AddStoryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setOnClickListener()
+        observeAddNewStory()
     }
 
     private fun setOnClickListener() {
         binding.apply {
             btnAddCamera.setOnClickListener { startCamera() }
             btnAddGallery.setOnClickListener { startGallery() }
+            btnAddStory.setOnClickListener {
+                val description = binding.edAddDescription.text.toString().trim()
+                getFile?.let { photoFile -> addNewStory(photoFile, description) }
+            }
+        }
+    }
+
+    private fun addNewStory(photo: File, description: String) {
+        val reducedPhoto = reduceFileImage(photo)
+        viewModel.addNewStory(reducedPhoto, description)
+    }
+
+    private fun observeAddNewStory() {
+        viewModel.addNewStoryResponse.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Loading -> {
+                    binding.pbLoading.isVisible = true
+                }
+                is Resource.Error -> {
+                    binding.pbLoading.isVisible = false
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                }
+                is Resource.Success -> {
+                    binding.pbLoading.isVisible = false
+                    Toast.makeText(requireContext(), getString(R.string.message_add_story_success), Toast.LENGTH_SHORT).show()
+                    findNavController().navigate(R.id.action_addStoryFragment_to_listStoryFragment)
+                }
+                else -> {}
+            }
         }
     }
 

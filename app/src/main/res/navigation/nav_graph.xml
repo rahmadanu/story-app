@@ -70,5 +70,11 @@
         android:id="@+id/addStoryFragment"
         android:name="com.dandev.storyapp.ui.home.add_story.AddStoryFragment"
         android:label="fragment_add_story"
-        tools:layout="@layout/fragment_add_story" />
+        tools:layout="@layout/fragment_add_story" >
+        <action
+            android:id="@+id/action_addStoryFragment_to_listStoryFragment"
+            app:destination="@id/listStoryFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true"/>
+    </fragment>
 </navigation>
