@@ -30,4 +30,5 @@
     <string name="hint_write_a_description">Write a description</string>
     <string name="label_add_story">Add Story</string>
     <string name="package_authority">com.dandev.storyapp</string>
+    <string name="title_choose_a_picture">Choose a picture</string>
 </resources>

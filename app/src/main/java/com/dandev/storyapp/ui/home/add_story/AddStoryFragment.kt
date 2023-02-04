@@ -2,6 +2,7 @@ package com.dandev.storyapp.ui.home.add_story
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.content.Intent.ACTION_GET_CONTENT
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
@@ -15,6 +16,7 @@ import androidx.core.content.FileProvider
 import com.dandev.storyapp.R
 import com.dandev.storyapp.databinding.FragmentAddStoryBinding
 import com.dandev.storyapp.util.image.createCustomTempFile
+import com.dandev.storyapp.util.image.uriToFile
 import java.io.File
 
 class AddStoryFragment : Fragment() {
@@ -37,6 +39,18 @@ class AddStoryFragment : Fragment() {
         }
     }
 
+    private val launcherIntentGallery = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
+        if (it.resultCode == RESULT_OK) {
+            val selectedImg: Uri = it.data?.data as Uri
+            val myFile = uriToFile(selectedImg, requireContext())
+
+            getFile = myFile
+            binding.ivAddImagePlaceholder.setImageURI(selectedImg)
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -54,10 +68,18 @@ class AddStoryFragment : Fragment() {
 
     private fun setOnClickListener() {
         binding.apply {
-            btnAddCamera.setOnClickListener {
-                startCamera()
-            }
+            btnAddCamera.setOnClickListener { startCamera() }
+            btnAddGallery.setOnClickListener { startGallery() }
         }
+    }
+
+    private fun startGallery() {
+        val intent = Intent().apply {
+            action = ACTION_GET_CONTENT
+            type = "image/*"
+        }
+        val chooser = Intent.createChooser(intent, getString(R.string.title_choose_a_picture))
+        launcherIntentGallery.launch(chooser)
     }
 
     private fun startCamera() {
@@ -66,7 +88,7 @@ class AddStoryFragment : Fragment() {
 
         createCustomTempFile(requireActivity().application).also {
             val photoURI: Uri = FileProvider.getUriForFile(
-                requireActivity(),
+                requireContext(),
                 getString(R.string.package_authority),
                 it
             )
