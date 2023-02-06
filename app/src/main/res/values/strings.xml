@@ -21,6 +21,7 @@
     <string name="desc_picture_to_be_posted">Picture to be posted</string>
     <string name="desc_add_story_image_placeholder">Add story image placeholder</string>
     <string name="desc_new_story_description">This is a story photo description</string>
+    <string name="desc_go_back_to_list_story">Go back to list story</string>
 
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>

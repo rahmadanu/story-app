@@ -22,6 +22,7 @@
     <string name="desc_picture_to_be_posted">Foto yang akan diposting</string>
     <string name="desc_add_story_image_placeholder">Placeholder foto tambah cerita</string>
     <string name="desc_new_story_description">Ini adalah deskripsi foto cerita</string>
+    <string name="desc_go_back_to_list_story">Kembali ke daftar cerita</string>
 
     <string name="hint_email">Email</string>
     <string name="hint_password">Kata sandi</string>

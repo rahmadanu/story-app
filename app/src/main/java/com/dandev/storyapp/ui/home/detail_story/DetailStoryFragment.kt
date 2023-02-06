@@ -8,12 +8,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.ViewCompat
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.dandev.storyapp.R
 import com.dandev.storyapp.data.remote.model.story.Story
 import com.dandev.storyapp.databinding.FragmentDetailStoryBinding
 import com.dandev.storyapp.util.date.getMilliseconds
@@ -48,7 +50,14 @@ class DetailStoryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         postponeEnterTransition()
+        setOnClickListener()
         bindDetailStoryToView(navArgs.detailStory)
+    }
+
+    private fun setOnClickListener() {
+        binding.ivUpButton.setOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 
     private fun bindDetailStoryToView(detailStory: Story) {
