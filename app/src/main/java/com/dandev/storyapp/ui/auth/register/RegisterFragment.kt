@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -29,7 +30,18 @@ class RegisterFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentRegisterBinding.inflate(inflater, container, false)
+        handleOnBackPressed()
         return binding.root
+    }
+
+    private fun handleOnBackPressed() {
+        val callback: OnBackPressedCallback =
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+                }
+            }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,7 +63,7 @@ class RegisterFragment : Fragment() {
                 }
                 is Resource.Success -> {
                     binding.pbLoading.isVisible = false
-                    findNavController().navigateUp()
+                    findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
                     Toast.makeText(requireContext(), it.data?.message, Toast.LENGTH_SHORT).show()
                 }
                 else -> {}
@@ -61,7 +73,9 @@ class RegisterFragment : Fragment() {
 
     private fun setOnClickListener() {
         binding.apply {
-            tvLabelLogIn.setOnClickListener { findNavController().navigateUp() }
+            tvLabelLogIn.setOnClickListener {
+                findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+            }
             btnRegister.setOnClickListener {
                 if (validateInput()) {
                     registerUser(parseFormIntoEntity())
