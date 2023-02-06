@@ -1,38 +1,42 @@
 <resources>
     <string name="app_name">StoryApp</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="desc_app_logo">App logo</string>
     <string name="label_or_click_to_register">or click to register</string>
     <string name="label_let_s_login_first">Let\'s login first</string>
-    <string name="hint_email">Email</string>
-    <string name="hint_password">Password</string>
-    <string name="hint_name">Name</string>
     <string name="label_login">Login</string>
-    <string name="error_password_at_least_characters">Password should be at least 6 characters</string>
-    <string name="error_email_format_invalid">Email format is invalid</string>
     <string name="label_register_new_account">Register new account</string>
     <string name="label_or_click_to_login">or click to login</string>
     <string name="label_register">Register</string>
-    <string name="error_empty_name">Name must not be empty</string>
-    <string name="error_empty_email">Email must not be empty</string>
-    <string name="error_empty_password">Password must not be empty</string>
-    <string name="desc_user_profile_picture">User profile picture</string>
     <string name="label_logout">Logout</string>
-    <string name="desc_picture_to_be_posted">Picture to be posted</string>
     <string name="label_description">Description</string>
     <string name="label_uploaded">Uploaded</string>
     <string name="label_name">Name</string>
     <string name="label_posted_by">Posted by</string>
-    <string name="desc_add_story_image_placeholder">Add story image placeholder</string>
     <string name="label_camera">Camera</string>
     <string name="label_gallery">Gallery</string>
-    <string name="hint_write_a_description">Write a description</string>
     <string name="label_add_story">Add Story</string>
-    <string name="package_authority">com.dandev.storyapp</string>
-    <string name="title_choose_a_picture">Choose a picture</string>
+
+    <string name="desc_app_logo">App logo</string>
+    <string name="desc_user_profile_picture">User profile picture</string>
+    <string name="desc_picture_to_be_posted">Picture to be posted</string>
+    <string name="desc_add_story_image_placeholder">Add story image placeholder</string>
     <string name="desc_new_story_description">This is a story photo description</string>
-    <string name="message_add_story_success">Add new story success</string>
+
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_name">Name</string>
+    <string name="hint_write_a_description">Write a description</string>
+
+    <string name="error_password_at_least_characters">Password should be at least 6 characters</string>
+    <string name="error_email_format_invalid">Email format is invalid</string>
+    <string name="error_empty_name">Name must not be empty</string>
+    <string name="error_empty_email">Email must not be empty</string>
+    <string name="error_empty_password">Password must not be empty</string>
     <string name="error_empty_description">Description must not be empty</string>
+
+    <string name="message_add_story_success">Add new story success</string>
     <string name="message_upload_photo_required">Upload photo required</string>
+    <string name="title_choose_a_picture">Choose a picture</string>
+
+    <string name="package_authority">com.dandev.storyapp</string>
 </resources>
