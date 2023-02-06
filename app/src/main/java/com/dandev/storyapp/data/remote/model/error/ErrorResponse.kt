@@ -6,5 +6,5 @@ data class ErrorResponse(
     @SerializedName("message")
     val message: String? = null,
     @SerializedName("status")
-    val status: String? = null
+    val status: String? = null,
 )

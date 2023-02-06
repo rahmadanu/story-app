@@ -12,7 +12,8 @@ interface AuthRemoteDataSource {
     suspend fun loginUser(loginRequest: LoginRequest): LoginResponse
 }
 
-class AuthRemoteDataSourceImpl @Inject constructor(private val apiService: AuthApiService): AuthRemoteDataSource {
+class AuthRemoteDataSourceImpl @Inject constructor(private val apiService: AuthApiService) :
+    AuthRemoteDataSource {
     override suspend fun registerUser(registerRequest: RegisterRequest): RegisterResponse {
         return apiService.registerUser(registerRequest)
     }

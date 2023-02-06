@@ -5,8 +5,6 @@ import com.dandev.storyapp.data.remote.model.story.StoriesResponse
 import com.dandev.storyapp.data.remote.service.StoryApiService
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import retrofit2.http.Header
-import retrofit2.http.Part
 import javax.inject.Inject
 
 interface StoryRemoteDataSource {
@@ -14,11 +12,12 @@ interface StoryRemoteDataSource {
     suspend fun addNewStory(
         token: String,
         photo: MultipartBody.Part,
-        description: RequestBody
+        description: RequestBody,
     ): AddStoryResponse
 }
 
-class StoryRemoteDataSourceImpl @Inject constructor(private val apiService: StoryApiService): StoryRemoteDataSource {
+class StoryRemoteDataSourceImpl @Inject constructor(private val apiService: StoryApiService) :
+    StoryRemoteDataSource {
     override suspend fun getAllStories(token: String): StoriesResponse {
         return apiService.getAllStories(token)
     }
@@ -26,7 +25,7 @@ class StoryRemoteDataSourceImpl @Inject constructor(private val apiService: Stor
     override suspend fun addNewStory(
         token: String,
         photo: MultipartBody.Part,
-        description: RequestBody
+        description: RequestBody,
     ): AddStoryResponse {
         return apiService.addNewStory(token, photo, description)
     }

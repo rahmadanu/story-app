@@ -15,8 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
-    private val registerUserUseCase: RegisterUserUseCase
-): ViewModel() {
+    private val registerUserUseCase: RegisterUserUseCase,
+) : ViewModel() {
     private val _registerResponse = MutableLiveData<Resource<RegisterResponse>>()
     val registerResponse: LiveData<Resource<RegisterResponse>> get() = _registerResponse
 

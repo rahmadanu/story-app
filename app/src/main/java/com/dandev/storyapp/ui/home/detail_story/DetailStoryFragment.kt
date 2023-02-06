@@ -3,11 +3,11 @@ package com.dandev.storyapp.ui.home.detail_story
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.transition.TransitionInflater
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.ViewCompat
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
@@ -15,7 +15,6 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-import com.dandev.storyapp.R
 import com.dandev.storyapp.data.remote.model.story.Story
 import com.dandev.storyapp.databinding.FragmentDetailStoryBinding
 import com.dandev.storyapp.util.date.getMilliseconds
@@ -39,7 +38,7 @@ class DetailStoryFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentDetailStoryBinding.inflate(inflater, container, false)
@@ -74,7 +73,7 @@ class DetailStoryFragment : Fragment() {
                             e: GlideException?,
                             model: Any?,
                             target: Target<Drawable>?,
-                            isFirstResource: Boolean
+                            isFirstResource: Boolean,
                         ): Boolean {
                             startPostponedEnterTransition()
                             return false
@@ -85,7 +84,7 @@ class DetailStoryFragment : Fragment() {
                             model: Any?,
                             target: Target<Drawable>?,
                             dataSource: DataSource?,
-                            isFirstResource: Boolean
+                            isFirstResource: Boolean,
                         ): Boolean {
                             startPostponedEnterTransition()
                             return false

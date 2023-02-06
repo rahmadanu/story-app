@@ -7,5 +7,5 @@ data class AddStoryResponse(
     @SerializedName("error")
     val error: Boolean? = null,
     @SerializedName("message")
-    val message: String? = null
+    val message: String? = null,
 )

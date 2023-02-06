@@ -10,8 +10,6 @@ import com.dandev.storyapp.data.remote.model.auth.RegisterResponse
 import com.dandev.storyapp.util.wrapper.Resource
 import com.dandev.storyapp.util.wrapper.proceed
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 interface AuthRepository {
@@ -24,7 +22,7 @@ interface AuthRepository {
 class AuthRepositoryImpl @Inject constructor(
     private val remoteDataSource: AuthRemoteDataSource,
     private val localDataSource: AuthLocalDataSource,
-): AuthRepository {
+) : AuthRepository {
     override suspend fun registerUser(registerRequest: RegisterRequest): Resource<RegisterResponse> {
         return proceed {
             remoteDataSource.registerUser(registerRequest)

@@ -12,7 +12,7 @@ import com.dandev.storyapp.R
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
-class CustomTextInputEditText: TextInputEditText {
+class CustomTextInputEditText : TextInputEditText {
 
     private lateinit var textInputLayout: TextInputLayout
 
@@ -24,7 +24,9 @@ class CustomTextInputEditText: TextInputEditText {
         init()
     }
 
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context,
+        attrs,
+        defStyleAttr) {
         init()
     }
 
@@ -42,12 +44,14 @@ class CustomTextInputEditText: TextInputEditText {
                 when (inputType) {
                     0x00000021 -> {
                         if (!Patterns.EMAIL_ADDRESS.matcher(text.toString()).matches()) {
-                            textInputLayout.error = context.getString(R.string.error_email_format_invalid)
+                            textInputLayout.error =
+                                context.getString(R.string.error_email_format_invalid)
                         }
                     }
                     0x00000081 -> {
                         if (text.toString().length < 6) {
-                            textInputLayout.error = context.getString(R.string.error_password_at_least_characters)
+                            textInputLayout.error =
+                                context.getString(R.string.error_password_at_least_characters)
                         }
                     }
                 }

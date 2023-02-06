@@ -1,7 +1,6 @@
-package com.dandev.storyapp.ui.home.list_story.adapter;
+package com.dandev.storyapp.ui.home.list_story.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.ViewCompat
 import androidx.navigation.fragment.FragmentNavigator
@@ -16,7 +15,7 @@ import com.dandev.storyapp.databinding.ItemStoryBinding
 
 class ListStoryAdapter(private val itemClick: (Story, FragmentNavigator.Extras) -> Unit) :
     RecyclerView.Adapter<ListStoryAdapter.ListStoryViewHolder>() {
-    
+
     private val diffCallback = object : DiffUtil.ItemCallback<Story>() {
         override fun areItemsTheSame(oldItem: Story, newItem: Story): Boolean {
             return oldItem.id == newItem.id
@@ -46,7 +45,7 @@ class ListStoryAdapter(private val itemClick: (Story, FragmentNavigator.Extras) 
 
     class ListStoryViewHolder(
         private val binding: ItemStoryBinding,
-        val itemClick: (Story, FragmentNavigator.Extras) -> Unit
+        val itemClick: (Story, FragmentNavigator.Extras) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bindView(item: Story) {
@@ -58,7 +57,6 @@ class ListStoryAdapter(private val itemClick: (Story, FragmentNavigator.Extras) 
                     Glide.with(itemView)
                         .load(photoUrl)
                         .transition(DrawableTransitionOptions.withCrossFade())
-                        //.placeholder()
                         .into(ivItemPhoto)
 
                     ViewCompat.setTransitionName(ivItemPhoto, "photo$id")

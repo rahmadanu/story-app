@@ -8,7 +8,6 @@ import com.dandev.storyapp.util.wrapper.proceed
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
@@ -19,13 +18,13 @@ interface StoryRepository {
     suspend fun addNewStory(
         token: String,
         photo: File,
-        description: String
+        description: String,
     ): Resource<AddStoryResponse>
 }
 
 class StoryRepositoryImpl @Inject constructor(
     private val storyRemoteDataSource: StoryRemoteDataSource,
-): StoryRepository {
+) : StoryRepository {
     override suspend fun getAllStories(token: String): Resource<StoriesResponse> {
         return proceed {
             storyRemoteDataSource.getAllStories("Bearer $token")
@@ -35,7 +34,7 @@ class StoryRepositoryImpl @Inject constructor(
     override suspend fun addNewStory(
         token: String,
         photo: File,
-        description: String
+        description: String,
     ): Resource<AddStoryResponse> {
         val photoRequestBody = photo.asRequestBody("image/jpeg".toMediaTypeOrNull())
         val descriptionRequestBody = description.toRequestBody("text/plain".toMediaType())

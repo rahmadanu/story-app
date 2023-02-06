@@ -9,7 +9,8 @@ interface AuthLocalDataSource {
     fun getUserToken(): Flow<String>
 }
 
-class AuthLocalDataSourceImpl @Inject constructor(private val dataStoreManager: AuthDataStoreManager): AuthLocalDataSource {
+class AuthLocalDataSourceImpl @Inject constructor(private val dataStoreManager: AuthDataStoreManager) :
+    AuthLocalDataSource {
     override suspend fun setUserToken(token: String) {
         dataStoreManager.setUserToken(token)
     }

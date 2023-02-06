@@ -63,7 +63,7 @@ class AddStoryFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentAddStoryBinding.inflate(inflater, container, false)
@@ -84,7 +84,7 @@ class AddStoryFragment : Fragment() {
             btnAddStory.setOnClickListener {
                 if (validateInput()) {
                     val description = binding.edAddDescription.text.toString().trim()
-                    getFile?.let { photoFile -> addNewStory(photoFile, description) }   
+                    getFile?.let { photoFile -> addNewStory(photoFile, description) }
                 }
             }
         }
@@ -98,7 +98,9 @@ class AddStoryFragment : Fragment() {
 
             if (getFile == null) {
                 isValid = false
-                Toast.makeText(requireContext(), getString(R.string.message_upload_photo_required), Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(),
+                    getString(R.string.message_upload_photo_required),
+                    Toast.LENGTH_SHORT).show()
             } else if (description.isEmpty()) {
                 isValid = false
                 edAddDescription.error = getString(R.string.error_empty_description)
@@ -125,7 +127,9 @@ class AddStoryFragment : Fragment() {
                 }
                 is Resource.Success -> {
                     binding.pbLoading.isVisible = false
-                    Toast.makeText(requireContext(), getString(R.string.message_add_story_success), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(),
+                        getString(R.string.message_add_story_success),
+                        Toast.LENGTH_SHORT).show()
                     findNavController().navigate(R.id.action_addStoryFragment_to_listStoryFragment)
                 }
                 else -> {}

@@ -16,8 +16,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ListStoryViewModel @Inject constructor(
     private val getListStoryUseCase: GetListStoryUseCase,
-    private val logoutUserUseCase: LogoutUserUseCase
-): ViewModel() {
+    private val logoutUserUseCase: LogoutUserUseCase,
+) : ViewModel() {
     private val _listStoryResponse = MutableLiveData<Resource<StoriesResponse>>()
     val listStoryResponse: LiveData<Resource<StoriesResponse>> get() = _listStoryResponse
 

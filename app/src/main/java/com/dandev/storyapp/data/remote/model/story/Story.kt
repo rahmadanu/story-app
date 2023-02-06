@@ -20,5 +20,5 @@ data class Story(
     @SerializedName("name")
     val name: String? = null,
     @SerializedName("photoUrl")
-    val photoUrl: String? = null
-): Parcelable
+    val photoUrl: String? = null,
+) : Parcelable

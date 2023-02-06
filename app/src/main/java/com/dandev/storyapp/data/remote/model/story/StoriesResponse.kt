@@ -9,5 +9,5 @@ data class StoriesResponse(
     @SerializedName("listStory")
     val listStory: List<Story?>? = null,
     @SerializedName("message")
-    val message: String? = null
+    val message: String? = null,
 )

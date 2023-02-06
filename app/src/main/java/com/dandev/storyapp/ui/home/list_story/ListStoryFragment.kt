@@ -1,14 +1,13 @@
 package com.dandev.storyapp.ui.home.list_story
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.os.bundleOf
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,15 +26,16 @@ class ListStoryFragment : Fragment() {
     private val viewModel: ListStoryViewModel by viewModels()
 
     private val adapter: ListStoryAdapter by lazy {
-        ListStoryAdapter{ story, extras ->
-            val action = ListStoryFragmentDirections.actionListStoryFragmentToDetailStoryFragment(story)
+        ListStoryAdapter { story, extras ->
+            val action =
+                ListStoryFragmentDirections.actionListStoryFragmentToDetailStoryFragment(story)
             findNavController().navigate(action, extras)
         }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentListStoryBinding.inflate(inflater, container, false)

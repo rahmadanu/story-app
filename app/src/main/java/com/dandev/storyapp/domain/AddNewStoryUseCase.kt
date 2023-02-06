@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 class AddNewStoryUseCase @Inject constructor(
     private val storyRepository: StoryRepository,
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
 ) {
     suspend operator fun invoke(photo: File, description: String): Resource<AddStoryResponse> {
         val token = authRepository.getUserToken().first()

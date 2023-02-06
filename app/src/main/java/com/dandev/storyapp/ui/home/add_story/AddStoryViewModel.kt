@@ -15,8 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddStoryViewModel @Inject constructor(
-    private val addNewStoryUseCase: AddNewStoryUseCase
-): ViewModel() {
+    private val addNewStoryUseCase: AddNewStoryUseCase,
+) : ViewModel() {
     private var _addNewStoryResponse = MutableLiveData<Resource<AddStoryResponse>>()
     val addNewStoryResponse: LiveData<Resource<AddStoryResponse>> get() = _addNewStoryResponse
 
