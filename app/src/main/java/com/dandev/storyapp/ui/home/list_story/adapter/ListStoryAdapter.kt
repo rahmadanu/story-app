@@ -3,6 +3,9 @@ package com.dandev.storyapp.ui.home.list_story.adapter;
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
+import androidx.navigation.fragment.FragmentNavigator
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -11,7 +14,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.dandev.storyapp.data.remote.model.story.Story
 import com.dandev.storyapp.databinding.ItemStoryBinding
 
-class ListStoryAdapter(private val itemClick: (Story) -> Unit) :
+class ListStoryAdapter(private val itemClick: (Story, FragmentNavigator.Extras) -> Unit) :
     RecyclerView.Adapter<ListStoryAdapter.ListStoryViewHolder>() {
     
     private val diffCallback = object : DiffUtil.ItemCallback<Story>() {
@@ -43,7 +46,7 @@ class ListStoryAdapter(private val itemClick: (Story) -> Unit) :
 
     class ListStoryViewHolder(
         private val binding: ItemStoryBinding,
-        val itemClick: (Story) -> Unit
+        val itemClick: (Story, FragmentNavigator.Extras) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bindView(item: Story) {
@@ -57,8 +60,16 @@ class ListStoryAdapter(private val itemClick: (Story) -> Unit) :
                         .transition(DrawableTransitionOptions.withCrossFade())
                         //.placeholder()
                         .into(ivItemPhoto)
+
+                    ViewCompat.setTransitionName(ivItemPhoto, "photo$id")
                 }
-                itemView.setOnClickListener { itemClick(this) }
+
+                itemView.setOnClickListener {
+                    val extras = FragmentNavigatorExtras(
+                        Pair(binding.ivItemPhoto, "detail_photo"),
+                    )
+                    itemClick(this, extras)
+                }
             }
 
         }
