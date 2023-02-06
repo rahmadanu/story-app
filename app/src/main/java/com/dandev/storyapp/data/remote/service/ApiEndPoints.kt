@@ -7,4 +7,5 @@ object ApiEndPoints {
 
     // Story
     const val GET_ALL_STORIES = "stories"
+    const val POST_NEW_STORY = "stories"
 }

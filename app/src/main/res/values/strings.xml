@@ -24,4 +24,15 @@
     <string name="label_uploaded">Uploaded</string>
     <string name="label_name">Name</string>
     <string name="label_posted_by">Posted by</string>
+    <string name="desc_add_story_image_placeholder">Add story image placeholder</string>
+    <string name="label_camera">Camera</string>
+    <string name="label_gallery">Gallery</string>
+    <string name="hint_write_a_description">Write a description</string>
+    <string name="label_add_story">Add Story</string>
+    <string name="package_authority">com.dandev.storyapp</string>
+    <string name="title_choose_a_picture">Choose a picture</string>
+    <string name="desc_new_story_description">This is a story photo description</string>
+    <string name="message_add_story_success">Add new story success</string>
+    <string name="error_empty_description">Description must not be empty</string>
+    <string name="message_upload_photo_required">Upload photo required</string>
 </resources>

@@ -1,16 +1,26 @@
 package com.dandev.storyapp.data.repository
 
-import android.util.Log
-import com.dandev.storyapp.data.local.data_source.AuthLocalDataSource
 import com.dandev.storyapp.data.remote.data_source.StoryRemoteDataSource
+import com.dandev.storyapp.data.remote.model.story.AddStoryResponse
 import com.dandev.storyapp.data.remote.model.story.StoriesResponse
 import com.dandev.storyapp.util.wrapper.Resource
 import com.dandev.storyapp.util.wrapper.proceed
-import kotlinx.coroutines.flow.first
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.File
 import javax.inject.Inject
 
 interface StoryRepository {
     suspend fun getAllStories(token: String): Resource<StoriesResponse>
+    suspend fun addNewStory(
+        token: String,
+        photo: File,
+        description: String
+    ): Resource<AddStoryResponse>
 }
 
 class StoryRepositoryImpl @Inject constructor(
@@ -19,6 +29,29 @@ class StoryRepositoryImpl @Inject constructor(
     override suspend fun getAllStories(token: String): Resource<StoriesResponse> {
         return proceed {
             storyRemoteDataSource.getAllStories("Bearer $token")
+        }
+    }
+
+    override suspend fun addNewStory(
+        token: String,
+        photo: File,
+        description: String
+    ): Resource<AddStoryResponse> {
+        val photoRequestBody = photo.asRequestBody("image/jpeg".toMediaTypeOrNull())
+        val descriptionRequestBody = description.toRequestBody("text/plain".toMediaType())
+
+        val imageMultipart = MultipartBody.Part.createFormData(
+            "photo",
+            photo.name,
+            photoRequestBody
+        )
+
+        return proceed {
+            storyRemoteDataSource.addNewStory(
+                "Bearer $token",
+                imageMultipart,
+                descriptionRequestBody
+            )
         }
     }
 }

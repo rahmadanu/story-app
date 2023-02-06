@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
+import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -25,9 +27,9 @@ class ListStoryFragment : Fragment() {
     private val viewModel: ListStoryViewModel by viewModels()
 
     private val adapter: ListStoryAdapter by lazy {
-        ListStoryAdapter{
-            val action = ListStoryFragmentDirections.actionListStoryFragmentToDetailStoryFragment(it)
-            findNavController().navigate(action)
+        ListStoryAdapter{ story, extras ->
+            val action = ListStoryFragmentDirections.actionListStoryFragmentToDetailStoryFragment(story)
+            findNavController().navigate(action, extras)
         }
     }
 
@@ -43,6 +45,7 @@ class ListStoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        postponeEnterTransition()
         setOnClickListener()
         initList()
         getAllStories()
@@ -54,6 +57,9 @@ class ListStoryFragment : Fragment() {
         binding.apply {
             tvLogout.setOnClickListener {
                 viewModel.logoutUser()
+            }
+            fabAddStory.setOnClickListener {
+                findNavController().navigate(R.id.action_listStoryFragment_to_addStoryFragment)
             }
         }
     }
@@ -71,6 +77,10 @@ class ListStoryFragment : Fragment() {
                 is Resource.Success -> {
                     binding.pbLoading.isVisible = false
                     adapter.submitList(it.data?.listStory)
+
+                    (view?.parent as? ViewGroup)?.doOnPreDraw {
+                        startPostponedEnterTransition()
+                    }
                 }
                 else -> {}
             }
