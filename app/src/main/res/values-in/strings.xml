@@ -29,7 +29,7 @@
     <string name="hint_name">Nama</string>
     <string name="hint_write_a_description">Tulis deskripsi</string>
 
-    <string name="error_password_at_least_characters">Kata sandi minimal harus 6 karakter</string>
+    <string name="error_password_at_least_characters">Kata sandi minimal harus 8 karakter</string>
     <string name="error_email_format_invalid">Format email tidak valid</string>
     <string name="error_empty_name">Nama tidak boleh kosong</string>
     <string name="error_empty_email">Email tidak boleh kosong</string>

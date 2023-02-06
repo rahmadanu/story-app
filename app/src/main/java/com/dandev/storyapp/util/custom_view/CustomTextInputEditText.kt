@@ -49,7 +49,7 @@ class CustomTextInputEditText : TextInputEditText {
                         }
                     }
                     0x00000081 -> {
-                        if (text.toString().length < 6) {
+                        if (text.toString().length < 8) {
                             textInputLayout.error =
                                 context.getString(R.string.error_password_at_least_characters)
                         }

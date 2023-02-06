@@ -28,7 +28,7 @@
     <string name="hint_name">Name</string>
     <string name="hint_write_a_description">Write a description</string>
 
-    <string name="error_password_at_least_characters">Password should be at least 6 characters</string>
+    <string name="error_password_at_least_characters">Password should be at least 8 characters</string>
     <string name="error_email_format_invalid">Email format is invalid</string>
     <string name="error_empty_name">Name must not be empty</string>
     <string name="error_empty_email">Email must not be empty</string>
