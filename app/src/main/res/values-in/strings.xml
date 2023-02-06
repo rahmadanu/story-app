@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">StoryApp</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="label_or_click_to_register">atau klik untuk daftar</string>
+    <string name="label_let_s_login_first">Ayo masuk terlebih dahulu</string>
+    <string name="label_login">Masuk</string>
+    <string name="label_register_new_account">Daftar akun baru</string>
+    <string name="label_or_click_to_login">atau klik untuk masuk</string>
+    <string name="label_register">Daftar</string>
+    <string name="label_logout">Keluar</string>
+    <string name="label_description">Deskripsi</string>
+    <string name="label_uploaded">Diunggah</string>
+    <string name="label_name">Nama</string>
+    <string name="label_posted_by">Diposting oleh</string>
+    <string name="label_camera">Kamera</string>
+    <string name="label_gallery">Galeri</string>
+    <string name="label_add_story">Tambah Cerita</string>
+
+    <string name="desc_app_logo">Logo Aplikasi</string>
+    <string name="desc_user_profile_picture">Foto profil pengguna</string>
+    <string name="desc_picture_to_be_posted">Foto yang akan diposting</string>
+    <string name="desc_add_story_image_placeholder">Placeholder foto tambah cerita</string>
+    <string name="desc_new_story_description">Ini adalah deskripsi foto cerita</string>
+    <string name="desc_go_back_to_list_story">Kembali ke daftar cerita</string>
+
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Kata sandi</string>
+    <string name="hint_name">Nama</string>
+    <string name="hint_write_a_description">Tulis deskripsi</string>
+
+    <string name="error_password_at_least_characters">Kata sandi minimal harus 6 karakter</string>
+    <string name="error_email_format_invalid">Format email tidak valid</string>
+    <string name="error_empty_name">Nama tidak boleh kosong</string>
+    <string name="error_empty_email">Email tidak boleh kosong</string>
+    <string name="error_empty_password">Kata sandi tidak boleh kosong</string>
+    <string name="error_empty_description">Deskripsi tidak boleh kosong</string>
+
+    <string name="message_add_story_success">Sukses menambah cerita baru</string>
+    <string name="message_upload_photo_required">Dibutuhkan unggah foto terlebih dahulu</string>
+    <string name="title_choose_a_picture">Pilih gambar</string>
+
+    <string name="time_just_now">Baru saja</string>
+    <string name="time_a_minute_ago">satu menit lalu</string>
+    <string name="time_minutes_ago">"%1$d menit yang lalu"</string>
+    <string name="time_an_hour_ago">"satu jam lalu"</string>
+    <string name="time_hours_ago">"%1$d jam yang lalu"</string>
+    <string name="time_yesterday">"kemarin"</string>
+    <string name="time_days_ago">"%1$d hari yang lalu"</string>
+    <string name="time_a_month_ago">"satu bulan lalu"</string>
+    <string name="time_months_ago">"%1$d bulan yang lalu"</string>
+    <string name="time_a_year_ago">"satu tahun lalu"</string>
+    <string name="time_years_ago">"%1$d tahun yang lalu"</string>
+
+    <string name="package_authority">com.dandev.storyapp</string>
+</resources>
