@@ -13,11 +13,11 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginTop="50dp"
+        android:src="@drawable/img_logo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:contentDescription="@string/desc_app_logo"
-        android:src="@drawable/ic_launcher_background" />
+        android:contentDescription="@string/desc_app_logo" />
 
     <TextView
         android:id="@+id/tv_label_log_in"
