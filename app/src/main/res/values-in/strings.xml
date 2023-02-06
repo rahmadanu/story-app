@@ -39,5 +39,17 @@
     <string name="message_upload_photo_required">Dibutuhkan unggah foto terlebih dahulu</string>
     <string name="title_choose_a_picture">Pilih gambar</string>
 
+    <string name="time_just_now">Baru saja</string>
+    <string name="time_a_minute_ago">satu menit lalu</string>
+    <string name="time_minutes_ago">"%1$d menit yang lalu"</string>
+    <string name="time_an_hour_ago">"satu jam lalu"</string>
+    <string name="time_hours_ago">"%1$d jam yang lalu"</string>
+    <string name="time_yesterday">"kemarin"</string>
+    <string name="time_days_ago">"%1$d hari yang lalu"</string>
+    <string name="time_a_month_ago">"satu bulan lalu"</string>
+    <string name="time_months_ago">"%1$d bulan yang lalu"</string>
+    <string name="time_a_year_ago">"satu tahun lalu"</string>
+    <string name="time_years_ago">"%1$d tahun yang lalu"</string>
+
     <string name="package_authority">com.dandev.storyapp</string>
 </resources>

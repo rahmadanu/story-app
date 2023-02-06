@@ -38,5 +38,17 @@
     <string name="message_upload_photo_required">Upload photo required</string>
     <string name="title_choose_a_picture">Choose a picture</string>
 
+    <string name="time_just_now">Just now</string>
+    <string name="time_a_minute_ago">a minute ago</string>
+    <string name="time_minutes_ago">"%1$d minutes ago"</string>
+    <string name="time_an_hour_ago">"an hour ago"</string>
+    <string name="time_hours_ago">"%1$d hours ago"</string>
+    <string name="time_yesterday">"yesterday"</string>
+    <string name="time_days_ago">"%1$d days ago"</string>
+    <string name="time_a_month_ago">"a month ago"</string>
+    <string name="time_months_ago">"%1$d months ago"</string>
+    <string name="time_a_year_ago">"a year ago"</string>
+    <string name="time_years_ago">"%1$d years ago"</string>
+
     <string name="package_authority">com.dandev.storyapp</string>
 </resources>

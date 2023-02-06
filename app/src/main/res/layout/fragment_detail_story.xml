@@ -74,7 +74,6 @@
                 android:id="@+id/tv_detail_uploaded"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAllCaps="true"
                 app:layout_constraintTop_toTopOf="@id/tv_label_uploaded"
                 app:layout_constraintEnd_toEndOf="parent"
                 tools:text="3 days ago" />

@@ -16,6 +16,8 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.dandev.storyapp.data.remote.model.story.Story
 import com.dandev.storyapp.databinding.FragmentDetailStoryBinding
+import com.dandev.storyapp.util.date.getMilliseconds
+import com.dandev.storyapp.util.date.toTimeAgo
 
 class DetailStoryFragment : Fragment() {
 
@@ -53,7 +55,7 @@ class DetailStoryFragment : Fragment() {
         binding.apply {
             detailStory.apply {
                 tvDetailName.text = name
-                tvDetailUploaded.text = createdAt
+                tvDetailUploaded.text = createdAt?.let { getMilliseconds(it).toTimeAgo() }
                 tvDetailDescription.text = description
 
                 Glide.with(requireContext())
