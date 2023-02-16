@@ -52,4 +52,5 @@
     <string name="time_years_ago">"%1$d years ago"</string>
 
     <string name="package_authority">com.dandev.storyapp</string>
+    <string name="desc_navigate_to_maps">Navigate to maps</string>
 </resources>

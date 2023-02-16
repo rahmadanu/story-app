@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dandev.storyapp.R
+import com.dandev.storyapp.data.remote.model.story.Story
 import com.dandev.storyapp.databinding.FragmentListStoryBinding
 import com.dandev.storyapp.ui.home.list_story.adapter.ListStoryAdapter
 import com.dandev.storyapp.util.wrapper.Resource
@@ -24,6 +25,8 @@ class ListStoryFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: ListStoryViewModel by viewModels()
+
+    private lateinit var listStory: Array<Story>
 
     private val adapter: ListStoryAdapter by lazy {
         ListStoryAdapter { story, extras ->
@@ -58,6 +61,10 @@ class ListStoryFragment : Fragment() {
             tvLogout.setOnClickListener {
                 viewModel.logoutUser()
             }
+            ivMaps.setOnClickListener {
+                val action = ListStoryFragmentDirections.actionListStoryFragmentToMapsFragment(listStory)
+                findNavController().navigate(action)
+            }
             fabAddStory.setOnClickListener {
                 findNavController().navigate(R.id.action_listStoryFragment_to_addStoryFragment)
             }
@@ -77,6 +84,9 @@ class ListStoryFragment : Fragment() {
                 is Resource.Success -> {
                     binding.pbLoading.isVisible = false
                     adapter.submitList(it.data?.listStory)
+                    it.data?.listStory?.let { list ->
+                        listStory = list.toTypedArray()
+                    }
 
                     (view?.parent as? ViewGroup)?.doOnPreDraw {
                         startPostponedEnterTransition()
