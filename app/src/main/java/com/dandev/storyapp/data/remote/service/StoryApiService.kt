@@ -11,6 +11,7 @@ interface StoryApiService {
     @GET(ApiEndPoints.GET_ALL_STORIES)
     suspend fun getAllStories(
         @Header("Authorization") token: String,
+        @Query("location") withLocation: Int = 0
     ): StoriesResponse
 
     @Multipart

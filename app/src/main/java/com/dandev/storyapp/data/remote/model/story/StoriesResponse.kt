@@ -7,7 +7,7 @@ data class StoriesResponse(
     @SerializedName("error")
     val error: Boolean? = null,
     @SerializedName("listStory")
-    val listStory: List<Story?>? = null,
+    val listStory: List<Story>? = null,
     @SerializedName("message")
     val message: String? = null,
 )

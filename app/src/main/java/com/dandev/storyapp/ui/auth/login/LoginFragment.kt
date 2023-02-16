@@ -86,6 +86,12 @@ class LoginFragment : Fragment() {
                 isValid = false
                 tilPassword.error = getString(R.string.error_empty_password)
                 edLoginPassword.requestFocus()
+            } else if (tilEmail.error != null) {
+                isValid = false
+                edLoginEmail.requestFocus()
+            } else if (tilPassword.error != null) {
+                isValid = false
+                edLoginPassword.requestFocus()
             }
         }
         return isValid
