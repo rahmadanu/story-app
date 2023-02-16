@@ -27,7 +27,7 @@ class StoryRepositoryImpl @Inject constructor(
 ) : StoryRepository {
     override suspend fun getAllStories(token: String): Resource<StoriesResponse> {
         return proceed {
-            storyRemoteDataSource.getAllStories("Bearer $token")
+            storyRemoteDataSource.getAllStories("Bearer $token", 1)
         }
     }
 
