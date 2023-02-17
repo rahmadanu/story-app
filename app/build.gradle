@@ -43,6 +43,10 @@ android {
 }
 
 dependencies {
+
+    // Paging
+    implementation "androidx.paging:paging-runtime-ktx:3.1.1"
+
     // Glide image loader
     implementation 'com.github.bumptech.glide:glide:4.14.0'
     implementation 'com.google.android.gms:play-services-maps:18.1.0'

@@ -1,21 +1,22 @@
 package com.dandev.storyapp.ui.maps
 
 import android.location.Geocoder
-import androidx.fragment.app.Fragment
-
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavArgs
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.dandev.storyapp.R
-import com.dandev.storyapp.ui.home.list_story.ListStoryViewModel
+import com.dandev.storyapp.data.remote.model.story.MapsStory
+import com.dandev.storyapp.databinding.FragmentMapsBinding
 import com.dandev.storyapp.util.wrapper.Resource
-import com.google.android.gms.maps.CameraUpdate
-
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -24,14 +25,19 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.HiltAndroidApp
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.IOException
 import java.util.*
+import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
 class MapsFragment : Fragment() {
+    private var _binding: FragmentMapsBinding? = null
+    private val binding get() = _binding!!
 
-    private val navArgs: MapsFragmentArgs by navArgs()
+    private val viewModel: MapsViewModel by viewModels()
 
     private lateinit var mMap: GoogleMap
     private val boundsBuilder = LatLngBounds.Builder()
@@ -55,12 +61,12 @@ class MapsFragment : Fragment() {
         mMap.uiSettings.isIndoorLevelPickerEnabled = true
         mMap.uiSettings.isCompassEnabled = true
         mMap.uiSettings.isMapToolbarEnabled = true
-
-        showPeopleMarker()
     }
 
-    private fun showPeopleMarker() {
-        navArgs.listStory.forEach { loc ->
+    private fun showPeopleMarker(mapsInfo: List<MapsStory>) {
+        mapsInfo.forEach { loc ->
+            Log.d("maps", mapsInfo.toString())
+
             val latLng = LatLng(loc.lat!!, loc.lon!!)
             val address = getAddressName(loc.lat, loc.lon)
             mMap.addMarker(MarkerOptions().position(latLng).title(loc.name!!).snippet(address))
@@ -98,12 +104,40 @@ class MapsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        return inflater.inflate(R.layout.fragment_maps, container, false)
+        _binding = FragmentMapsBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.getListStoryWithMap()
+        observeMapsInfo()
+
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
+    }
+
+    private fun observeMapsInfo() {
+        viewModel.mapsInfo.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Error -> {
+                    binding.pbLoading.isVisible = false
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                }
+                is Resource.Loading -> {
+                    binding.pbLoading.isVisible = true
+                }
+                is Resource.Success -> {
+                    binding.pbLoading.isVisible = false
+                    it.data?.let { mapsInfo -> showPeopleMarker(mapsInfo) }
+                }
+                else -> {}
+            }
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
