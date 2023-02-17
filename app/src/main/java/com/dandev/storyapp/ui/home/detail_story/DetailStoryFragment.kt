@@ -15,6 +15,7 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.dandev.storyapp.R
 import com.dandev.storyapp.data.remote.model.story.Story
 import com.dandev.storyapp.databinding.FragmentDetailStoryBinding
 import com.dandev.storyapp.util.date.getMilliseconds
@@ -55,7 +56,7 @@ class DetailStoryFragment : Fragment() {
 
     private fun setOnClickListener() {
         binding.ivUpButton.setOnClickListener {
-            findNavController().navigateUp()
+            findNavController().navigate(R.id.action_detailStoryFragment_to_listStoryFragment)
         }
     }
 

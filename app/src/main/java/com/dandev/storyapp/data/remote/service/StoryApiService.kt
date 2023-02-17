@@ -11,7 +11,9 @@ interface StoryApiService {
     @GET(ApiEndPoints.GET_ALL_STORIES)
     suspend fun getAllStories(
         @Header("Authorization") token: String,
-        @Query("location") withLocation: Int = 0
+        @Query("page") page: Int = DEFAULT_PAGE,
+        @Query("size") size: Int = SIZE_PER_PAGE,
+        @Query("location") withLocation: Int = 1
     ): StoriesResponse
 
     @Multipart
@@ -21,4 +23,9 @@ interface StoryApiService {
         @Part photo: MultipartBody.Part,
         @Part("description") description: RequestBody,
     ): AddStoryResponse
+
+    companion object {
+        const val DEFAULT_PAGE = 1
+        const val SIZE_PER_PAGE = 6
+    }
 }

@@ -8,7 +8,7 @@ import okhttp3.RequestBody
 import javax.inject.Inject
 
 interface StoryRemoteDataSource {
-    suspend fun getAllStories(token: String, withLocation: Int): StoriesResponse
+    suspend fun getAllStories(token: String, page: Int): StoriesResponse
     suspend fun addNewStory(
         token: String,
         photo: MultipartBody.Part,
@@ -18,8 +18,8 @@ interface StoryRemoteDataSource {
 
 class StoryRemoteDataSourceImpl @Inject constructor(private val apiService: StoryApiService) :
     StoryRemoteDataSource {
-    override suspend fun getAllStories(token: String, withLocation: Int): StoriesResponse {
-        return apiService.getAllStories(token, withLocation)
+    override suspend fun getAllStories(token: String, page: Int): StoriesResponse {
+        return apiService.getAllStories(token = token, page = page)
     }
 
     override suspend fun addNewStory(

@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.core.view.ViewCompat
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -14,9 +15,9 @@ import com.dandev.storyapp.data.remote.model.story.Story
 import com.dandev.storyapp.databinding.ItemStoryBinding
 
 class ListStoryAdapter(private val itemClick: (Story, FragmentNavigator.Extras) -> Unit) :
-    RecyclerView.Adapter<ListStoryAdapter.ListStoryViewHolder>() {
+    PagingDataAdapter<Story, ListStoryAdapter.ListStoryViewHolder>(DiffCallback) {
 
-    private val diffCallback = object : DiffUtil.ItemCallback<Story>() {
+    companion object DiffCallback : DiffUtil.ItemCallback<Story>() {
         override fun areItemsTheSame(oldItem: Story, newItem: Story): Boolean {
             return oldItem.id == newItem.id
         }
@@ -26,22 +27,15 @@ class ListStoryAdapter(private val itemClick: (Story, FragmentNavigator.Extras) 
         }
     }
 
-    private val differ = AsyncListDiffer(this, diffCallback)
-
-    fun submitList(list: List<Story?>?) {
-        differ.submitList(list)
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListStoryViewHolder {
         val binding = ItemStoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ListStoryViewHolder(binding, itemClick)
     }
 
     override fun onBindViewHolder(holder: ListStoryViewHolder, position: Int) {
-        holder.bindView(differ.currentList[position])
+        val story = getItem(position)
+        story?.let { holder.bindView(it) }
     }
-
-    override fun getItemCount(): Int = differ.currentList.size
 
     class ListStoryViewHolder(
         private val binding: ItemStoryBinding,

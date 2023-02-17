@@ -1,8 +1,16 @@
 package com.dandev.storyapp.data.repository
 
+import androidx.lifecycle.LiveData
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.liveData
 import com.dandev.storyapp.data.remote.data_source.StoryRemoteDataSource
 import com.dandev.storyapp.data.remote.model.story.AddStoryResponse
 import com.dandev.storyapp.data.remote.model.story.StoriesResponse
+import com.dandev.storyapp.data.remote.model.story.Story
+import com.dandev.storyapp.data.remote.paging.StoryPagingSource
+import com.dandev.storyapp.data.remote.service.StoryApiService
 import com.dandev.storyapp.util.wrapper.Resource
 import com.dandev.storyapp.util.wrapper.proceed
 import okhttp3.MediaType.Companion.toMediaType
@@ -14,7 +22,7 @@ import java.io.File
 import javax.inject.Inject
 
 interface StoryRepository {
-    suspend fun getAllStories(token: String): Resource<StoriesResponse>
+    fun getAllStories(): LiveData<PagingData<Story>>
     suspend fun addNewStory(
         token: String,
         photo: File,
@@ -24,11 +32,18 @@ interface StoryRepository {
 
 class StoryRepositoryImpl @Inject constructor(
     private val storyRemoteDataSource: StoryRemoteDataSource,
+    private val storyPagingSource: StoryPagingSource
 ) : StoryRepository {
-    override suspend fun getAllStories(token: String): Resource<StoriesResponse> {
-        return proceed {
-            storyRemoteDataSource.getAllStories("Bearer $token", 1)
-        }
+    override fun getAllStories(): LiveData<PagingData<Story>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 6,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = {
+                storyPagingSource
+            }
+        ).liveData
     }
 
     override suspend fun addNewStory(

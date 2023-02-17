@@ -9,14 +9,20 @@ import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dandev.storyapp.R
 import com.dandev.storyapp.data.remote.model.story.Story
 import com.dandev.storyapp.databinding.FragmentListStoryBinding
+import com.dandev.storyapp.ui.home.list_story.adapter.FooterLoadStateAdapter
 import com.dandev.storyapp.ui.home.list_story.adapter.ListStoryAdapter
 import com.dandev.storyapp.util.wrapper.Resource
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ListStoryFragment : Fragment() {
@@ -26,7 +32,7 @@ class ListStoryFragment : Fragment() {
 
     private val viewModel: ListStoryViewModel by viewModels()
 
-    private lateinit var listStory: Array<Story>
+    //private lateinit var listStory: Array<Story>
 
     private val adapter: ListStoryAdapter by lazy {
         ListStoryAdapter { story, extras ->
@@ -51,7 +57,6 @@ class ListStoryFragment : Fragment() {
         postponeEnterTransition()
         setOnClickListener()
         initList()
-        getAllStories()
         observeListStory()
         observeLogoutUser()
     }
@@ -61,10 +66,10 @@ class ListStoryFragment : Fragment() {
             tvLogout.setOnClickListener {
                 viewModel.logoutUser()
             }
-            ivMaps.setOnClickListener {
+            /*ivMaps.setOnClickListener {
                 val action = ListStoryFragmentDirections.actionListStoryFragmentToMapsFragment(listStory)
                 findNavController().navigate(action)
-            }
+            }*/
             fabAddStory.setOnClickListener {
                 findNavController().navigate(R.id.action_listStoryFragment_to_addStoryFragment)
             }
@@ -72,33 +77,21 @@ class ListStoryFragment : Fragment() {
     }
 
     private fun observeListStory() {
-        viewModel.listStoryResponse.observe(viewLifecycleOwner) {
-            when (it) {
-                is Resource.Loading -> {
-                    binding.pbLoading.isVisible = true
-                }
-                is Resource.Error -> {
-                    binding.pbLoading.isVisible = false
-                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
-                }
-                is Resource.Success -> {
-                    binding.pbLoading.isVisible = false
-                    adapter.submitList(it.data?.listStory)
-                    it.data?.listStory?.let { list ->
-                        listStory = list.toTypedArray()
+        viewModel.getListStory().observe(viewLifecycleOwner) {
+            lifecycleScope.launch(Dispatchers.Main) {
+                /*adapter.loadStateFlow.collectLatest { loadStates ->
+                    if (loadStates.refresh is LoadState.Loading) {
+                        binding.pbLoading.isVisible = true
+                    } else {
+                        binding.pbLoading.isVisible = false
+                        if (loadStates.refresh is LoadState.Error) {
+                            //binding.tvEmpty.isVisible = adapter.itemCount < 1
+                        }
                     }
-
-                    (view?.parent as? ViewGroup)?.doOnPreDraw {
-                        startPostponedEnterTransition()
-                    }
-                }
-                else -> {}
+                }*/
             }
+            adapter.submitData(lifecycle, it)
         }
-    }
-
-    private fun getAllStories() {
-        viewModel.getAllStories()
     }
 
     private fun observeLogoutUser() {
@@ -118,7 +111,9 @@ class ListStoryFragment : Fragment() {
     private fun initList() {
         binding.rvListStory.apply {
             layoutManager = LinearLayoutManager(requireContext())
-            adapter = this@ListStoryFragment.adapter
+            adapter = this@ListStoryFragment.adapter.withLoadStateFooter(
+                footer = FooterLoadStateAdapter { this@ListStoryFragment.adapter.retry() }
+            )
         }
     }
 
