@@ -55,5 +55,6 @@
     <string name="desc_navigate_to_maps">Navigate to maps</string>
     <string name="btn_try_again">Try Again</string>
     <string name="check_your_connection">Check your internet connection and try again</string>
+    <string name="txt_empty">Empty</string>
 
 </resources>

@@ -66,10 +66,10 @@ class ListStoryFragment : Fragment() {
             tvLogout.setOnClickListener {
                 viewModel.logoutUser()
             }
-            /*ivMaps.setOnClickListener {
+            ivMaps.setOnClickListener {/*
                 val action = ListStoryFragmentDirections.actionListStoryFragmentToMapsFragment(listStory)
-                findNavController().navigate(action)
-            }*/
+                findNavController().navigate(action)*/
+            }
             fabAddStory.setOnClickListener {
                 findNavController().navigate(R.id.action_listStoryFragment_to_addStoryFragment)
             }
@@ -79,18 +79,22 @@ class ListStoryFragment : Fragment() {
     private fun observeListStory() {
         viewModel.getListStory().observe(viewLifecycleOwner) {
             lifecycleScope.launch(Dispatchers.Main) {
-                /*adapter.loadStateFlow.collectLatest { loadStates ->
+                adapter.loadStateFlow.collectLatest { loadStates ->
                     if (loadStates.refresh is LoadState.Loading) {
                         binding.pbLoading.isVisible = true
                     } else {
                         binding.pbLoading.isVisible = false
                         if (loadStates.refresh is LoadState.Error) {
-                            //binding.tvEmpty.isVisible = adapter.itemCount < 1
+                            binding.tvEmpty.isVisible = adapter.itemCount < 1
                         }
                     }
-                }*/
+                }
             }
             adapter.submitData(lifecycle, it)
+            (view?.parent as? ViewGroup)?.doOnPreDraw {
+                startPostponedEnterTransition()
+            }
+            binding.tvEmpty.isVisible = false
         }
     }
 

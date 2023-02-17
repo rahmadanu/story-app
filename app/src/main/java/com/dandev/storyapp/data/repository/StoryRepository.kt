@@ -37,7 +37,7 @@ class StoryRepositoryImpl @Inject constructor(
     override fun getAllStories(): LiveData<PagingData<Story>> {
         return Pager(
             config = PagingConfig(
-                pageSize = 6,
+                pageSize = StoryApiService.SIZE_PER_PAGE,
                 enablePlaceholders = false
             ),
             pagingSourceFactory = {
