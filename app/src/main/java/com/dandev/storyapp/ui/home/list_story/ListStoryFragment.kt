@@ -32,8 +32,6 @@ class ListStoryFragment : Fragment() {
 
     private val viewModel: ListStoryViewModel by viewModels()
 
-    //private lateinit var listStory: Array<Story>
-
     private val adapter: ListStoryAdapter by lazy {
         ListStoryAdapter { story, extras ->
             val action =
@@ -66,9 +64,8 @@ class ListStoryFragment : Fragment() {
             tvLogout.setOnClickListener {
                 viewModel.logoutUser()
             }
-            ivMaps.setOnClickListener {/*
-                val action = ListStoryFragmentDirections.actionListStoryFragmentToMapsFragment(listStory)
-                findNavController().navigate(action)*/
+            ivMaps.setOnClickListener {
+                findNavController().navigate(R.id.action_listStoryFragment_to_mapsFragment)
             }
             fabAddStory.setOnClickListener {
                 findNavController().navigate(R.id.action_listStoryFragment_to_addStoryFragment)

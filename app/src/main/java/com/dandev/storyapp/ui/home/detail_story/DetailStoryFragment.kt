@@ -56,7 +56,7 @@ class DetailStoryFragment : Fragment() {
 
     private fun setOnClickListener() {
         binding.ivUpButton.setOnClickListener {
-            findNavController().navigate(R.id.action_detailStoryFragment_to_listStoryFragment)
+            findNavController().navigateUp()
         }
     }
 

@@ -97,9 +97,5 @@
         android:id="@+id/mapsFragment"
         android:name="com.dandev.storyapp.ui.maps.MapsFragment"
         android:label="fragment_maps"
-        tools:layout="@layout/fragment_maps" >
-        <argument
-            android:name="listStory"
-            app:argType="com.dandev.storyapp.data.remote.model.story.Story[]" />
-    </fragment>
+        tools:layout="@layout/fragment_maps" />
 </navigation>

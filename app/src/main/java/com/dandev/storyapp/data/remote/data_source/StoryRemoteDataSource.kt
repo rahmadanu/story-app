@@ -1,14 +1,17 @@
 package com.dandev.storyapp.data.remote.data_source
 
 import com.dandev.storyapp.data.remote.model.story.AddStoryResponse
+import com.dandev.storyapp.data.remote.model.story.MapsStory
 import com.dandev.storyapp.data.remote.model.story.StoriesResponse
 import com.dandev.storyapp.data.remote.service.StoryApiService
+import com.dandev.storyapp.util.wrapper.Resource
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import javax.inject.Inject
 
 interface StoryRemoteDataSource {
     suspend fun getAllStories(token: String, page: Int): StoriesResponse
+    suspend fun getStoriesWithMapsInfo(token: String, size: Int): StoriesResponse
     suspend fun addNewStory(
         token: String,
         photo: MultipartBody.Part,
@@ -20,6 +23,10 @@ class StoryRemoteDataSourceImpl @Inject constructor(private val apiService: Stor
     StoryRemoteDataSource {
     override suspend fun getAllStories(token: String, page: Int): StoriesResponse {
         return apiService.getAllStories(token = token, page = page)
+    }
+
+    override suspend fun getStoriesWithMapsInfo(token: String, size: Int): StoriesResponse {
+        return apiService.getAllStories(token = token, size = size)
     }
 
     override suspend fun addNewStory(

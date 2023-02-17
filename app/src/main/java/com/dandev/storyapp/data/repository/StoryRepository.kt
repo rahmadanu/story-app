@@ -7,6 +7,7 @@ import androidx.paging.PagingData
 import androidx.paging.liveData
 import com.dandev.storyapp.data.remote.data_source.StoryRemoteDataSource
 import com.dandev.storyapp.data.remote.model.story.AddStoryResponse
+import com.dandev.storyapp.data.remote.model.story.MapsStory
 import com.dandev.storyapp.data.remote.model.story.StoriesResponse
 import com.dandev.storyapp.data.remote.model.story.Story
 import com.dandev.storyapp.data.remote.paging.StoryPagingSource
@@ -23,6 +24,7 @@ import javax.inject.Inject
 
 interface StoryRepository {
     fun getAllStories(): LiveData<PagingData<Story>>
+    suspend fun getStoriesWithMapsInfo(token: String): Resource<List<MapsStory>>
     suspend fun addNewStory(
         token: String,
         photo: File,
@@ -44,6 +46,18 @@ class StoryRepositoryImpl @Inject constructor(
                 storyPagingSource
             }
         ).liveData
+    }
+
+    override suspend fun getStoriesWithMapsInfo(token: String,): Resource<List<MapsStory>> {
+        return proceed {
+            storyRemoteDataSource.getStoriesWithMapsInfo(token, 10).listStory?.map {
+                MapsStory(
+                    name = it.name,
+                    lat = it.lat,
+                    lon = it.lon
+                )
+            }!!
+        }
     }
 
     override suspend fun addNewStory(
