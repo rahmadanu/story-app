@@ -72,6 +72,7 @@ class ListStoryViewModelTest {
         differ.submitData(actual)
 
         Mockito.verify(getListStoryUseCase).invoke()
+        advanceUntilIdle()
         assertNotNull(actual)
         assertEquals(dummyList.size, differ.snapshot().size)
     }
