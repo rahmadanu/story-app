@@ -39,8 +39,8 @@ class ListStoryViewModelTest {
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
 
-/*    @get:Rule
-    val mainCoroutineRule = MainCoroutineRule()*/
+    @get:Rule
+    val mainCoroutineRule = MainCoroutineRule()
 
     @Mock
     private lateinit var getListStoryUseCase: GetListStoryUseCase
@@ -66,7 +66,7 @@ class ListStoryViewModelTest {
         val differ = AsyncPagingDataDiffer(
             diffCallback = ListStoryAdapter.DiffCallback,
             updateCallback = NoopListCallback(),
-            workerDispatcher = Dispatchers.Main
+            workerDispatcher = mainCoroutineRule.dispatcher
         )
         val actual: PagingData<Story> = listStoryViewModel.getListStory().getOrAwaitValue()
         differ.submitData(actual)
