@@ -39,8 +39,8 @@ class ListStoryViewModelTest {
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
 
-    @get:Rule
-    val mainCoroutineRule = MainCoroutineRule()
+/*    @get:Rule
+    val mainCoroutineRule = MainCoroutineRule()*/
 
     @Mock
     private lateinit var getListStoryUseCase: GetListStoryUseCase
