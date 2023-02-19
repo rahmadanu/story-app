@@ -3,7 +3,7 @@ package com.dandev.storyapp.util
 import com.dandev.storyapp.data.remote.model.story.Story
 
 object DummyData {
-    val listStory = listOf(
+    val listStory = listOf<Story>(
         Story(
             id =  "story-Tnrhv8DYV7fEXDt1",
             name = "andika",
@@ -50,4 +50,6 @@ object DummyData {
             lon = 106.816345
         ),
     )
+
+    val emptyListStory = listOf<Story>()
 }
