@@ -1,20 +1,19 @@
 package com.dandev.storyapp.data.repository
 
-import androidx.lifecycle.LiveData
+import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import androidx.paging.liveData
 import com.dandev.storyapp.data.remote.data_source.StoryRemoteDataSource
 import com.dandev.storyapp.data.remote.model.story.AddStoryResponse
 import com.dandev.storyapp.data.remote.model.story.MapsStory
-import com.dandev.storyapp.data.remote.model.story.StoriesResponse
 import com.dandev.storyapp.data.remote.model.story.Story
 import com.dandev.storyapp.data.remote.paging.StoryPagingSource
 import com.dandev.storyapp.data.remote.service.StoryApiService
 import com.dandev.storyapp.util.wrapper.Resource
 import com.dandev.storyapp.util.wrapper.proceed
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -30,7 +29,7 @@ interface StoryRepository {
         token: String,
         photo: File,
         description: String,
-    ): Resource<AddStoryResponse>
+    ): Flow<Resource<AddStoryResponse>>
 }
 
 class StoryRepositoryImpl @Inject constructor(
@@ -65,22 +64,27 @@ class StoryRepositoryImpl @Inject constructor(
         token: String,
         photo: File,
         description: String,
-    ): Resource<AddStoryResponse> {
-        val photoRequestBody = photo.asRequestBody("image/jpeg".toMediaTypeOrNull())
-        val descriptionRequestBody = description.toRequestBody("text/plain".toMediaType())
+    ): Flow<Resource<AddStoryResponse>> = flow {
+        emit(Resource.Loading())
+        try {
+            Log.d("add", token)
+            val photoRequestBody = photo.asRequestBody("image/jpeg".toMediaTypeOrNull())
+            val descriptionRequestBody = description.toRequestBody("text/plain".toMediaType())
 
-        val imageMultipart = MultipartBody.Part.createFormData(
-            "photo",
-            photo.name,
-            photoRequestBody
-        )
-
-        return proceed {
-            storyRemoteDataSource.addNewStory(
-                "Bearer $token",
-                imageMultipart,
-                descriptionRequestBody
+            val imageMultipart = MultipartBody.Part.createFormData(
+                "photo",
+                photo.name,
+                photoRequestBody
             )
+
+            val response = storyRemoteDataSource.addNewStory(
+                    "Bearer $token",
+                    imageMultipart,
+                    descriptionRequestBody
+                )
+            emit(Resource.Success(response))
+        } catch (e: Exception) {
+            emit(Resource.Error(e, e.message))
         }
     }
 }

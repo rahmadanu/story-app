@@ -9,6 +9,8 @@ import com.dandev.storyapp.domain.AddNewStoryUseCase
 import com.dandev.storyapp.util.wrapper.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import java.io.File
 import javax.inject.Inject
@@ -17,15 +19,17 @@ import javax.inject.Inject
 class AddStoryViewModel @Inject constructor(
     private val addNewStoryUseCase: AddNewStoryUseCase,
 ) : ViewModel() {
-    private var _addNewStoryResponse = MutableLiveData<Resource<AddStoryResponse>>()
-    val addNewStoryResponse: LiveData<Resource<AddStoryResponse>> get() = _addNewStoryResponse
+    private var _addNewStoryResponse = MutableSharedFlow<Resource<AddStoryResponse>>()
+    val addNewStoryResponse = _addNewStoryResponse.asSharedFlow()
 
     fun addNewStory(photo: File, description: String) {
-        _addNewStoryResponse.postValue(Resource.Loading())
         viewModelScope.launch(Dispatchers.IO) {
+            _addNewStoryResponse.emit(Resource.Loading())
             val response = addNewStoryUseCase(photo, description)
             viewModelScope.launch(Dispatchers.Main) {
-                _addNewStoryResponse.postValue(response)
+                response.collect {
+                    _addNewStoryResponse.emit(it)
+                }
             }
         }
     }

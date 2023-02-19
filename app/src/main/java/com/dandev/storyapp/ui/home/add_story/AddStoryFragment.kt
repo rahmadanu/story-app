@@ -16,6 +16,9 @@ import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.dandev.storyapp.R
 import com.dandev.storyapp.databinding.FragmentAddStoryBinding
@@ -24,6 +27,8 @@ import com.dandev.storyapp.util.image.reduceFileImage
 import com.dandev.storyapp.util.image.uriToFile
 import com.dandev.storyapp.util.wrapper.Resource
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import java.io.File
 
 @AndroidEntryPoint
@@ -116,25 +121,28 @@ class AddStoryFragment : Fragment() {
     }
 
     private fun observeAddNewStory() {
-        viewModel.addNewStoryResponse.observe(viewLifecycleOwner) {
-            when (it) {
-                is Resource.Loading -> {
-                    binding.pbLoading.isVisible = true
+        viewModel.addNewStoryResponse
+            .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+            .onEach { result ->
+                when(result) {
+                    is Resource.Error -> {
+                        binding.pbLoading.isVisible = false
+                        Toast.makeText(requireContext(), result.message, Toast.LENGTH_SHORT).show()
+                    }
+                    is Resource.Loading -> {
+                        binding.pbLoading.isVisible = true
+                    }
+                    is Resource.Success -> {
+                        binding.pbLoading.isVisible = false
+                        Toast.makeText(requireContext(),
+                            getString(R.string.message_add_story_success),
+                            Toast.LENGTH_SHORT).show()
+                        findNavController().navigate(R.id.action_addStoryFragment_to_listStoryFragment)
+                    }
+                    else -> {}
                 }
-                is Resource.Error -> {
-                    binding.pbLoading.isVisible = false
-                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
-                }
-                is Resource.Success -> {
-                    binding.pbLoading.isVisible = false
-                    Toast.makeText(requireContext(),
-                        getString(R.string.message_add_story_success),
-                        Toast.LENGTH_SHORT).show()
-                    findNavController().navigate(R.id.action_addStoryFragment_to_listStoryFragment)
-                }
-                else -> {}
             }
-        }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     private fun startGallery() {
