@@ -86,15 +86,17 @@ class MapsFragment : Fragment() {
 
     private fun getAddressName(lat: Double, lon: Double): String? {
         var addressName: String? = null
-        val geocoder = Geocoder(requireActivity(), Locale.getDefault())
+        lifecycleScope.launch(Dispatchers.IO) {
+            val geocoder = Geocoder(requireActivity(), Locale.getDefault())
 
-        try {
-            val list = geocoder.getFromLocation(lat, lon, 1)
-            if (list != null && list.size != 0) {
-                addressName = list[0].getAddressLine(0)
+            try {
+                val list = geocoder.getFromLocation(lat, lon, 1)
+                if (list != null && list.size != 0) {
+                    addressName = list[0].getAddressLine(0)
+                }
+            } catch (e: IOException) {
+                e.printStackTrace()
             }
-        } catch (e: IOException) {
-            e.printStackTrace()
         }
         return addressName
     }

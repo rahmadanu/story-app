@@ -9,19 +9,20 @@ import com.dandev.storyapp.data.remote.model.story.Story
 import com.dandev.storyapp.data.repository.AuthRepository
 import com.dandev.storyapp.data.repository.StoryRepository
 import com.dandev.storyapp.util.wrapper.Resource
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 class GetListStoryUseCase @Inject constructor(
     private val storyRepository: StoryRepository,
-    private val localDataSource: AuthLocalDataSource
+    private val authRepository: AuthRepository
 ) {
-    operator fun invoke(): LiveData<PagingData<Story>> {
+    operator fun invoke(): Flow<PagingData<Story>> {
         return storyRepository.getAllStories()
     }
 
     suspend fun getListStoryWithMap(): Resource<List<MapsStory>> {
-        val token = localDataSource.getUserToken().first()
+        val token = authRepository.getUserToken().first()
         return storyRepository.getStoriesWithMapsInfo("Bearer $token")
     }
 }

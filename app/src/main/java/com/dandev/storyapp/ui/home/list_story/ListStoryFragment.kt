@@ -9,6 +9,8 @@ import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
@@ -22,6 +24,8 @@ import com.dandev.storyapp.util.wrapper.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -38,6 +42,11 @@ class ListStoryFragment : Fragment() {
                 ListStoryFragmentDirections.actionListStoryFragmentToDetailStoryFragment(story)
             findNavController().navigate(action, extras)
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.getListStory()
     }
 
     override fun onCreateView(
@@ -74,24 +83,13 @@ class ListStoryFragment : Fragment() {
     }
 
     private fun observeListStory() {
-        viewModel.getListStory().observe(viewLifecycleOwner) {
-            lifecycleScope.launch(Dispatchers.Main) {
-                adapter.loadStateFlow.collectLatest { loadStates ->
-                    if (loadStates.refresh is LoadState.Loading) {
-                        binding.pbLoading.isVisible = true
-                    } else {
-                        binding.pbLoading.isVisible = false
-                        if (loadStates.refresh is LoadState.Error) {
-                            binding.tvEmpty.isVisible = adapter.itemCount < 1
-                        }
-                    }
-                }
-            }
-            adapter.submitData(lifecycle, it)
-            (view?.parent as? ViewGroup)?.doOnPreDraw {
-                startPostponedEnterTransition()
-            }
-            binding.tvEmpty.isVisible = false
+        viewModel.storyResponse
+            .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+            .onEach(adapter::submitData)
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+
+        (view?.parent as? ViewGroup)?.doOnPreDraw {
+            startPostponedEnterTransition()
         }
     }
 
@@ -115,6 +113,24 @@ class ListStoryFragment : Fragment() {
             adapter = this@ListStoryFragment.adapter.withLoadStateFooter(
                 footer = FooterLoadStateAdapter { this@ListStoryFragment.adapter.retry() }
             )
+        }
+        adapter.addLoadStateListener { loadState ->
+            when (loadState.source.refresh) {
+                is LoadState.NotLoading -> {
+                    binding.pbLoading.visibility = View.GONE
+                    binding.rvListStory.visibility = View.VISIBLE
+                }
+                is LoadState.Loading -> {
+                    binding.pbLoading.visibility = View.VISIBLE
+                    binding.rvListStory.visibility = View.GONE
+                }
+                is LoadState.Error -> {
+                    binding.pbLoading.visibility = View.GONE
+                    binding.rvListStory.visibility = View.GONE
+                    val errorState = loadState.source.refresh as LoadState.Error
+                    Toast.makeText(requireContext(), errorState.error.message, Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 

@@ -14,6 +14,7 @@ import com.dandev.storyapp.data.remote.paging.StoryPagingSource
 import com.dandev.storyapp.data.remote.service.StoryApiService
 import com.dandev.storyapp.util.wrapper.Resource
 import com.dandev.storyapp.util.wrapper.proceed
+import kotlinx.coroutines.flow.Flow
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -23,7 +24,7 @@ import java.io.File
 import javax.inject.Inject
 
 interface StoryRepository {
-    fun getAllStories(): LiveData<PagingData<Story>>
+    fun getAllStories(): Flow<PagingData<Story>>
     suspend fun getStoriesWithMapsInfo(token: String): Resource<List<MapsStory>>
     suspend fun addNewStory(
         token: String,
@@ -36,7 +37,7 @@ class StoryRepositoryImpl @Inject constructor(
     private val storyRemoteDataSource: StoryRemoteDataSource,
     private val storyPagingSource: StoryPagingSource
 ) : StoryRepository {
-    override fun getAllStories(): LiveData<PagingData<Story>> {
+    override fun getAllStories(): Flow<PagingData<Story>> {
         return Pager(
             config = PagingConfig(
                 pageSize = StoryApiService.SIZE_PER_PAGE,
@@ -45,7 +46,7 @@ class StoryRepositoryImpl @Inject constructor(
             pagingSourceFactory = {
                 storyPagingSource
             }
-        ).liveData
+        ).flow
     }
 
     override suspend fun getStoriesWithMapsInfo(token: String,): Resource<List<MapsStory>> {

@@ -6,10 +6,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.paging.AsyncPagingDataDiffer
 import androidx.paging.PagingData
+import androidx.paging.PagingSource
 import androidx.paging.cachedIn
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListUpdateCallback
+import app.cash.turbine.test
 import com.dandev.storyapp.data.remote.model.story.Story
+import com.dandev.storyapp.data.repository.AuthRepository
+import com.dandev.storyapp.data.repository.AuthRepositoryImpl
+import com.dandev.storyapp.data.repository.FakeStoryRepository
+import com.dandev.storyapp.data.repository.StoryRepository
 import com.dandev.storyapp.domain.GetListStoryUseCase
 import com.dandev.storyapp.domain.LogoutUserUseCase
 import com.dandev.storyapp.ui.home.list_story.adapter.ListStoryAdapter
@@ -19,6 +25,7 @@ import com.dandev.storyapp.util.PagingDataTestSource
 import com.dandev.storyapp.util.getOrAwaitValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
@@ -46,9 +53,7 @@ class ListStoryViewModelTest {
     private lateinit var getListStoryUseCase: GetListStoryUseCase
     @Mock
     private lateinit var logoutUserUseCase: LogoutUserUseCase
-
     private lateinit var listStoryViewModel: ListStoryViewModel
-    private val dummyListStory = DummyData.listStory
 
     @Before
     fun setUp() {
@@ -57,24 +62,29 @@ class ListStoryViewModelTest {
 
     @Test
     fun `when get list story should return success`() = runTest {
-        val dummyList = dummyListStory
-        val pagingData = PagingDataTestSource.snapshot(dummyList)
-        val expectedReturn = MutableLiveData<PagingData<Story>>()
-        expectedReturn.value = pagingData
-        `when`(getListStoryUseCase.invoke()).thenReturn(expectedReturn)
+        val dummyListStory = DummyData.listStory
+        val data = PagingData.from(dummyListStory)
+        val expectedStory = flow { emit(data)  }
 
-        val differ = AsyncPagingDataDiffer(
-            diffCallback = ListStoryAdapter.DiffCallback,
-            updateCallback = NoopListCallback(),
-            workerDispatcher = mainCoroutineRule.dispatcher
-        )
-        val actual: PagingData<Story> = listStoryViewModel.getListStory().getOrAwaitValue()
-        differ.submitData(actual)
+        `when`(getListStoryUseCase.invoke()).thenReturn(expectedStory)
 
-        Mockito.verify(getListStoryUseCase).invoke()
-        advanceUntilIdle()
-        assertNotNull(actual)
-        assertEquals(dummyList.size, differ.snapshot().size)
+        listStoryViewModel.storyResponse.test {
+            listStoryViewModel.getListStory()
+            Mockito.verify(getListStoryUseCase).invoke()
+
+            val differ = AsyncPagingDataDiffer(
+                diffCallback = MyDiffCallback(),
+                updateCallback = NoopListCallback(),
+                workerDispatcher = Dispatchers.Main
+            )
+            awaitItem()
+            val actual= awaitItem()
+            differ.submitData(actual)
+
+            advanceUntilIdle()
+            assertNotNull(actual)
+            assertEquals(dummyListStory, differ.snapshot().items)
+        }
     }
 }
 
