@@ -91,12 +91,6 @@ class ListStoryFragment : Fragment() {
         (view?.parent as? ViewGroup)?.doOnPreDraw {
             startPostponedEnterTransition()
         }
-        viewModel.getListStory()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.getListStory()
     }
 
     private fun observeLogoutUser() {

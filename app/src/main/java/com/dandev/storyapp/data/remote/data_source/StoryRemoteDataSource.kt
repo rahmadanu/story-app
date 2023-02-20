@@ -22,11 +22,11 @@ interface StoryRemoteDataSource {
 class StoryRemoteDataSourceImpl @Inject constructor(private val apiService: StoryApiService) :
     StoryRemoteDataSource {
     override suspend fun getAllStories(token: String, page: Int): StoriesResponse {
-        return apiService.getAllStories(token = token, page = page)
+        return apiService.getAllStories(token = token, page = page, withLocation = 0)
     }
 
     override suspend fun getStoriesWithMapsInfo(token: String, size: Int): StoriesResponse {
-        return apiService.getAllStories(token = token, size = size)
+        return apiService.getAllStories(token = token, size = size, withLocation = 1)
     }
 
     override suspend fun addNewStory(

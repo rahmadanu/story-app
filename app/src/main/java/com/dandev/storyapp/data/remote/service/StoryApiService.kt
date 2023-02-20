@@ -13,7 +13,7 @@ interface StoryApiService {
         @Header("Authorization") token: String,
         @Query("page") page: Int = DEFAULT_PAGE,
         @Query("size") size: Int = SIZE_PER_PAGE,
-        @Query("location") withLocation: Int = 1
+        @Query("location") withLocation: Int = 0
     ): StoriesResponse
 
     @Multipart

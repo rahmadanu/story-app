@@ -70,7 +70,7 @@ class ListStoryViewModelTest {
             differ.submitData(actual)
 
             advanceUntilIdle()
-            assertNotNull(actual) // data should not be null
+            assertNotNull(differ.snapshot()) // data should not be null
             assertEquals(dummyListStory, differ.snapshot().items) // data should return the same type
             assertEquals(dummyListStory.size, differ.snapshot().size) // data size should return same with the expected size
             assertEquals(dummyListStory[0], differ.snapshot()[0]) // first data should return the same type
@@ -99,7 +99,7 @@ class ListStoryViewModelTest {
             differ.submitData(actual)
 
             advanceUntilIdle()
-            assertNotNull(actual) // data should not be null
+            assertNotNull(differ.snapshot()) // data should not be null
             assertEquals(0, differ.snapshot().size) // data size should return same with the expected size
         }
     }
